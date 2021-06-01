@@ -1,0 +1,35 @@
+<!-- see 04 file for more examples (id, src, href, target, alt, for, name) -->
+
+<div class="container" id="colorBtnContainer">
+  <div class="btn" data-color="red">RED</div>
+  <div class="btn" data-color="green">GREEN</div>
+  <div class="btn" data-color="blue">BLUE</div>
+</div>
+
+<style>
+  .container {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  .btn {
+    font-size: 100px;
+    border: 2px solid;
+    padding: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: grey;
+  }
+</style>
+
+<script>
+  const container = document.querySelector("#colorBtnContainer");
+  container.addEventListener("click", (e) => {
+    const target = e.target;
+    if (target.classList.contains("btn")) {
+      container.style.background = target.getAttribute("data-color");
+    }
+  });
+</script>

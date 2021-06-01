@@ -1,0 +1,56 @@
+<div class="wrapper">
+  <div class="container">
+    <h1>item 1</h1>
+    <h2>item 2</h2>
+    <h2>item 3</h2>
+  </div>
+
+  <div class="container">
+
+    <h1>item 1</h1>
+
+    <div class="sub-container">
+      <h2>item 2</h2>
+      <h2>item 3</h2>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .container {
+    max-width: 700px;
+    margin: 24px auto;
+  }
+
+  .container {
+    display: flex;
+  }
+
+  .container,
+  .sub-container {
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .sub-container {
+    display: flex;
+    gap: 24px;
+  }
+
+  .wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+  }
+
+  .container {
+      margin: 0;
+  }
+
+  @media screen and (max-width: 600px) {
+      .container {
+          grid-column: 1 / 3;
+      }
+  }
+</style>
