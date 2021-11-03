@@ -1,0 +1,58 @@
+conf:
+  meta:
+    description: New Test Suite - Nov 02
+  parameters:
+    - origin_1: https://gateway.equitypupa.com
+    - rivi: Yarin QA
+    - arnon: employeeLoadmill@equitybee.com
+    - eee: yarin
+    - mmmm: website+employee
+    - hfhfhf: onboarding
+    - dddddd: onbo+arding
+  useCookies: true
+  loginFlow: []
+  authenticationHeaders: []
+  sharedLoginFlowDescription: New Load Test - Nov 02
+  parametersScope: FLOW
+flows:
+  - id: 9580a68b-e4ea-4f59-b01b-eac1ea7392d8
+    order: 0
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - description: POST onboarding/employee
+          method: POST
+          url: ${origin_1}/${hfhfhf}/employee
+          postData:
+            text: >-
+              {
+                "fullName": "${rivi}",
+                "email": "${eee}+${arnon}",
+                "completedOnboarding": false,
+                "leadMeta": {
+                  "source": "${mmmm}-${dddddd}",
+                  "ipAddress": "109.186.247.17",
+                  "ipLocation": "IL",
+                  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36",
+                  "referrer": null,
+                  "fbBrowserId": "fb.1.1613901251809.826067227",
+                  "direct": false
+                }
+              }
+            mimeType: application/json
+          headers:
+            - session-id: 5dbeaf86-20ee-40e1-907b-fbf38607292e
+          extract:
+            - entityId_datum_in_response_body_2:
+                jsonPath: $["data"]["entityId"]
+          assert:
+            - check: entityId_datum_in_response_body_2
+
+      skipLoginFlow: true
+    runInCi: false
+hooks: {}
+dependencies:
+  login:
+    id: 5678abd0-18fe-4214-be5f-5659d85460a9
