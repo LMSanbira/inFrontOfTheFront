@@ -5,7 +5,7 @@ conf:
     - bigJson: >-
         {
             "log": {
-                "version": "1.4kjabdf",
+                "version": "1.4kjabjeflkndf",
                 "creator": {
                     "name": "Loadmill-Chrome-Extension",
                     "version": "0.16"
@@ -3049,7 +3049,7 @@ conf:
   useCookies: true
   loginFlow: []
   authenticationHeaders: []
-  sharedLoginFlowDescription: New Load Test - Dec 05
+  sharedLoginFlowDescription: New Load Test - Dec 07
   parametersScope: SUITE
 flows:
   - id: 615518a0-e058-42ba-9ce2-4ff4b80bac0a
@@ -3066,6 +3066,110 @@ flows:
             text: arnon
             mimeType: text/plain
           postScript: ""
+    runInCi: false
+  - id: 60d5b623-05ee-4167-a614-49a0ed18bdb4
+    order: 1
+    conf:
+
+      meta:
+        description: New Flow
+      requests:
+        
+        - method: GET
+          url: w
+          postData:
+            text: iebgiubiaer
+            mimeType: application/javascript
+
+        - method: GET
+          url: w
+          postData:
+            text: iebgiubiaer
+            mimeType: application/javascript
+
+        - method: GET
+          url: w
+          postData:
+            text: iebgiubiaer
+            mimeType: application/javascript
+
+        - method: GET
+          url: w
+          postData:
+            text: iebgiubiaer
+            mimeType: application/javascript
+
+        - method: GET
+          url: w
+          postData:
+            text: iebgiubiaer
+            mimeType: application/javascript
+
+        - method: GET
+          url: w
+          postData:
+            text: iebgiubiaer
+            mimeType: application/javascript
+
+        - method: GET
+          url: w
+          postData:
+            text: iebgiubiaer
+            mimeType: application/javascript
+
+        - method: GET
+          url: w
+          postData:
+            text: iebgiubiaer
+            mimeType: application/javascript
+
+        - method: GET
+          url: w
+          postData:
+            text: iebgiubiaer
+            mimeType: application/javascript
+
+        - method: GET
+          url: w
+          postData:
+            text: iebgiubiaer
+            mimeType: application/javascript
+
+        - method: GET
+          url: w
+          postData:
+            text: iebgiubiaer
+            mimeType: application/javascript
+
+        - method: GET
+          url: w
+          postData:
+            text: iebgiubiaer
+            mimeType: application/javascript
+
+        - method: GET
+          url: w
+          postData:
+            text: iebgiubiaer
+            mimeType: application/javascript
+
+        - method: GET
+          url: w
+          postData:
+            text: iebgiubiaer
+            mimeType: application/javascript
+
+        - method: GET
+          url: w
+          postData:
+            text: iebgiubiaer
+            mimeType: application/javascript
+
+        - method: GET
+          url: w
+          postData:
+            text: iebgiubiaer
+            mimeType: application/javascript
     runInCi: false
 hooks: {}
 dependencies:
