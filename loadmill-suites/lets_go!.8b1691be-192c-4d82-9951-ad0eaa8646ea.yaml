@@ -1,0 +1,218 @@
+conf:
+  meta:
+    description: lets go!
+  parameters:
+    - aa: "1"
+    - bb: "2"
+    - cc: "3"
+    - origin_1: https://stackoverflow.com
+    - origin_2: https://securepubads.g.doubleclick.net
+    - origin_3: https://7e9fad325191d9212839f976cb99c4b6.safeframe.googlesyndication.com
+    - origin_4: https://pagead2.googlesyndication.com
+    - origin_5: https://tpc.googlesyndication.com
+    - origin_6: https://www.google.com
+    - ref_in_request_url_query_4: https://stackoverflow.com/
+    - pvsid_in_request_url_query_4: "2940308953312981"
+    - eid_in_request_url_query_4: "21067496"
+    - oid_in_request_url_query_4: "2"
+    - ga_vid_in_request_url_query_4: "1557992577.1577091765"
+    - ga_sid_in_request_url_query_4: "1640867906"
+    - ga_hid_in_request_url_query_4: "1144629953"
+    - gdfp_req_in_request_url_query_4: "1"
+    - correlator_in_request_url_query_4: "2079440705369554"
+    - output_in_request_url_query_4: ldjh
+    - impl_in_request_url_query_4: fif
+    - vrg_in_request_url_query_4: "2021120601"
+    - ptt_in_request_url_query_4: "17"
+    - sc_in_request_url_query_4: "1"
+    - sfv_in_request_url_query_4: 1-0-38
+    - ec_in_request_url_query_4: "20211230"
+    - enc_prev_ius_in_request_url_query_4: /0/1/2/3
+    - prev_iu_sz_in_request_url_query_4: 300x250|300x600
+    - fsf_in_request_url_query_4: "1"
+    - fsb_in_request_url_query_4: "1"
+    - cust_param_in_request_url_query_4: Registered=true&Reputation=200&so-tag=angular&tag-reportable=angular&tag-non-reportable=angular&Persona=FrontEnd&NumberOfAnswers=3&ProductVariant=SystemDefault&TargetingConsent=true&Sidebar=Rightreportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportablereportable
+    - cookie_in_request_url_query_4: ID=c68835adcf0e6538:T=1636967119:S=ALNI_MZuTBdHDAV0DAzvNVUYItmpaPy__Q
+    - bc_in_request_url_query_4: "31"
+    - abxe_in_request_url_query_4: "1"
+    - lmt_in_request_url_query_4: "1640867905"
+    - dlt_in_request_url_query_4: "1640867904910"
+    - idt_in_request_url_query_4: "708"
+    - frm_in_request_url_query_4: "20"
+    - biw_in_request_url_query_4: "1666"
+    - bih_in_request_url_query_4: "1218"
+    - adx_in_request_url_query_4: "1141"
+    - ady_in_request_url_query_4: "695"
+    - u_hi_in_request_url_query_4: "2"
+    - u_h_in_request_url_query_4: "1440"
+    - u_w_in_request_url_query_4: "2560"
+    - u_ah_in_request_url_query_4: "1329"
+    - u_aw_in_request_url_query_4: "2560"
+    - u_cd_in_request_url_query_4: "24"
+    - u_sd_in_request_url_query_4: "1"
+    - u_tz_in_request_url_query_4: "60"
+    - flash_in_request_url_query_4: "0"
+    - vi_in_request_url_query_4: "1"
+    - dmc_in_request_url_query_4: "8"
+    - scr_x_in_request_url_query_4: "0"
+    - scr_y_in_request_url_query_4: "0"
+    - psz_in_request_url_query_4: 300x0
+    - msz_in_request_url_query_4: 300x0
+    - ga_fc_in_request_url_query_4: "true"
+    - fw_in_request_url_query_4: "128"
+    - ohw_in_request_url_query_4: "0"
+    - btvi_in_request_url_query_4: "0"
+    - uach_in_request_url_query_4: WyJtYWNPUyIsIjEwLjE1LjciLCJ4ODYiLCIiLCI5NS4wLjQ2MzguNTQiLFtdLG51bGwsbnVsbCwiNjQiXQ..
+    - nvt_in_request_url_query_4: "1"
+  useCookies: true
+  loginFlow:
+    
+    - method: GET
+      url: walla.com
+
+  authenticationHeaders: []
+  sharedLoginFlowDescription: New Shared yep yep yep
+  parametersScope: SUITE
+flows:
+  - id: 2324a416-daf1-4e7a-8cfa-c9d75533c643
+    order: 0
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - description: lolol
+          method: GET
+          url: google.com?1=${cust_param_in_request_url_query_4}
+          disabled: false
+          loop:
+            assert:
+              check: bb
+            iterations: 1
+
+      skipLoginFlow: true
+    runInCi: true
+    assignedLabelsIds:
+      - id: 56da5a04-3f56-4a71-a3be-6db42ea36e7e
+      - id: 7c82abb7-2501-40db-8b81-3d57b7c6a201
+      - id: 7f59a3f3-ea71-4288-8d9c-47c427b52355
+      - id: a453f7ab-7779-4df3-8baf-cecc181083f4
+      - id: bff73938-9429-4dc7-80c0-946c73621205
+  - id: 13d217e8-d840-4030-81f4-1622d0f44b0f
+    order: 1
+    conf:
+      meta:
+        description: Recorded Flow - Dec 30 13:39
+      requests:
+        
+        - description: GET questions/ID/formcontrolname-to-be-used-for-div
+          method: GET
+          url: ${origin_1}/questions/50988119/formcontrolname-to-be-used-for-div
+          headers:
+            - accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            - referer: https://stackoverflow.com/
+            - accept-language: en-US,en;q=0.9
+          extract:
+            - meta_name_twitter_domain_in_response_body_1:
+                jQuery:
+                  query: meta[name="twitter:domain"]
+                  attr: content
+            - meta_property_og_url_in_response_body_1:
+                jQuery:
+                  query: meta[property="og:url"]
+                  attr: content
+          assert:
+            - check: meta_name_twitter_domain_in_response_body_1
+            - check: meta_property_og_url_in_response_body_1
+
+        - description: GET pagead/ppub_config
+          method: GET
+          url: ${origin_2}/pagead/ppub_config?ippd=${__encode_url(meta_name_twitter_domain_in_response_body_1)}
+          headers:
+            - Referer: https://stackoverflow.com/
+
+        - description: GET posts/ID/ivc/ID
+          method: GET
+          url: ${origin_1}/posts/50988119/ivc/8660?_=1640867905149
+          headers:
+            - accept: "*/*"
+            - x-requested-with: XMLHttpRequest
+            - referer: ${meta_property_og_url_in_response_body_1}
+            - accept-language: en-US,en;q=0.9
+
+        - description: GET safeframe/1-0-38/html/container.html
+          method: GET
+          url: ${origin_3}/safeframe/1-0-38/html/container.html
+          headers:
+            - accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            - x-client-data: CI+2yQEIpLbJAQjBtskBCKmdygEI7/LLAQie+csBCOeEzAEItYXMAQiEiMwBCMuJzAE=
+            - referer: ${ref_in_request_url_query_4}
+            - accept-language: en-US,en;q=0.9
+
+        - description: GET safeframe/1-0-38/html/container.html
+          method: GET
+          url: ${origin_3}/safeframe/1-0-38/html/container.html
+          headers:
+            - Referer: ${ref_in_request_url_query_4}
+
+        - description: GET getconfig/sodar
+          method: GET
+          url: ${origin_4}/getconfig/sodar?sv=200&tid=gpt&tv=2021120601&st=env
+          headers:
+            - accept: "*/*"
+            - x-client-data: CI+2yQEIpLbJAQjBtskBCKmdygEI7/LLAQie+csBCOeEzAEItYXMAQiEiMwBCMuJzAE=
+            - referer: ${ref_in_request_url_query_4}
+            - accept-language: en-US,en;q=0.9
+
+        - description: GET sodar/sodar2/225/runner.html
+          method: GET
+          url: ${origin_5}/sodar/sodar2/225/runner.html
+          headers:
+            - Referer: ${ref_in_request_url_query_4}
+
+        - description: GET recaptcha/api2/aframe
+          method: GET
+          url: ${origin_6}/recaptcha/api2/aframe
+          headers:
+            - Referer: ${ref_in_request_url_query_4}
+
+    runInCi: false
+  - id: 865a6dfd-abf5-4ace-a763-716287fc20a1
+    order: 2
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - method: GET
+          url: w
+
+        - method: GET
+          url: w
+
+    runInCi: false
+hooks:
+  beforeAll:
+    meta: {}
+    requests: []
+dependencies:
+  hooks:
+    beforeAllId: d01f6e77-0617-46e8-a014-a989f53b4429
+  labels:
+    - id: 56da5a04-3f56-4a71-a3be-6db42ea36e7e
+      description: "1"
+      color: "#61bd4f"
+    - id: 7c82abb7-2501-40db-8b81-3d57b7c6a201
+      description: kvnvjnkd
+      color: "#f2d600"
+    - id: 7f59a3f3-ea71-4288-8d9c-47c427b52355
+      description: sdvsdv
+      color: "#ff78cb"
+    - id: a453f7ab-7779-4df3-8baf-cecc181083f4
+      description: gggg
+      color: "#f2d600"
+    - id: bff73938-9429-4dc7-80c0-946c73621205
+      description: first
+      color: "#61bd4f"
+  login:
+    id: c52682d0-1084-4111-9e48-18679df67e54
