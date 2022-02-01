@@ -56,7 +56,7 @@ flows:
       requests:
         
         - method: GET
-          url: httpbin.orggg
+          url: httpbin.org
           disabled: false
           headers:
             - fjffffdgjfdhgjghj: gfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjf
