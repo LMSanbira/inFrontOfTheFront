@@ -1,0 +1,98 @@
+conf:
+  meta:
+    description: Loops icon
+  parameters:
+    - origin_1: https://app.loadmill.com
+    - origin_2: https://loadmill-record-ws-duwqnmxg7pv.herokuapp.com
+    - origin_3: https://api-iam.intercom.io
+    - origin_4: https://github.com
+    - origin_5: https://www.google-analytics.com
+    - origin_6: https://rs.fullstory.com
+    - origin_7: https://stats.g.doubleclick.net
+    - origin_8: https://checkout.stripe.com
+    - origin_9: https://platform.twitter.com
+    - origin_10: https://syndication.twitter.com
+    - origin_11: https://js.stripe.com
+    - origin_12: https://m.stripe.network
+    - origin_13: https://m.stripe.com
+    - referer_in_request_body_3: https://loadmill-record-ws-duwqnmxg7pv.herokuapp.com/app/api-tests/test-suites/d6d7bee0-bfb6-459c-a779-2d4487dd5da9/flows
+    - anonymous_id_user_datum_in_request_body_3: daa1d277-3efd-4c7c-8872-9125fdf2eeef
+    - app_id_in_request_body_3: uqy1vrnk
+    - v_in_request_body_3: "3"
+    - g_in_request_body_3: undefined
+    - in_request_body_3: f571244e-1473-4205-9e14-a59d84fb3954
+    - platform_in_request_body_3: web
+    - user_active_company_id_in_request_body_3: "-1"
+    - source_in_request_body_3: apiUpdate
+    - sampling_in_request_body_3: "false"
+    - page_title_in_request_body_6: Loadmill - Test Suite - New Test Suite - Jan 17
+    - referer_in_request_body_6: https://loadmill-record-ws-duwqnmxg7pv.herokuapp.com/app/api-tests/test-suites/d6d7bee0-bfb6-459c-a779-2d4487dd5da9/flows/f1d1de0a-f0d8-4920-a776-3ef9e7e60b31
+    - name_user_datum_in_request_body_8: Gilad
+    - Team_Role_user_datum_in_request_body_8: admin
+    - Team_Id_user_datum_in_request_body_8: 2eef51e3-6dd6-4310-a070-589cb945b331
+    - Plan_user_datum_in_request_body_8: FREE
+    - Identity_Verified_user_datum_in_request_body_8: "true"
+    - Max_Concurrency_user_datum_in_request_body_8: "50"
+    - Monthly_Test_Minute_user_datum_in_request_body_8: "60"
+    - Remaining_Test_Minute_user_datum_in_request_body_8: "60"
+    - je_in_request_url_query_11: "0"
+    - jid_in_request_url_query_11: "1377993289"
+    - gjid_in_request_url_query_11: "1823427228"
+    - cid_in_request_url_query_11: "971789729.1642428523"
+    - tid_in_request_url_query_11: UA-83264724-1
+    - gid_in_request_url_query_11: "1949061454.1642428523"
+    - v_in_request_url_query_11: "1"
+    - in_request_body_28: 7d280942-57cd-4389-9389-1c259739a5aa
+  useCookies: true
+  loginFlow: []
+  authenticationHeaders: []
+  parametersScope: SUITE
+flows:
+  - id: 28d3d059-e000-49ba-9d92-474eb887c4b5
+    order: 0
+    conf:
+      meta:
+        description: loop test
+      requests:
+        
+        - method: GET
+          url: httpbin.org
+          disabled: false
+          headers:
+            - fjffffdgjfdhgjghj: gfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjfgfhdghjfdghjfhddghjfdghjf
+          loop:
+            assert:
+              check: __responseTime
+              lesser: "100"
+            iterations: 50
+
+        - method: GET
+          url: google.com
+
+        - method: GET
+          url: httpbin.org
+          loop:
+            assert:
+              check: __responseTime
+              lesser: "100"
+            iterations: 10
+
+        - method: GET
+          url: httpbin.org/status/400
+
+    runInCi: false
+  - id: 64709055-e265-45e4-a948-2e3aac78a399
+    order: 1
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - method: GET
+          url: walla.com
+
+    runInCi: false
+hooks: {}
+dependencies:
+  login:
+    id: 9cb1a96e-601e-450d-b376-09728aa22f3e
