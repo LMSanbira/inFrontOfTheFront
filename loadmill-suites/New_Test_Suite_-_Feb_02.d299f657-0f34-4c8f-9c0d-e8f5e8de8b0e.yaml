@@ -15,7 +15,7 @@ flows:
       requests:
         
         - method: GET
-          url: sdfgtyrj
+          url: sdfgtyrjuih8h
 
     runInCi: false
 hooks: {}
