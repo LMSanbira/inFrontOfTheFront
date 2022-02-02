@@ -19,7 +19,7 @@ flows:
       requests:
         
         - method: GET
-          url: sdfgtyrjufvfijoijoogwg
+          url: ואטו
 
     runInCi: false
 hooks: {}
