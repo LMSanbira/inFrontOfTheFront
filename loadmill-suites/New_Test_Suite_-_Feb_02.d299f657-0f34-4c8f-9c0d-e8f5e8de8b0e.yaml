@@ -3,7 +3,11 @@ conf:
     description: New Test Suite - Feb 02
   parameters: []
   useCookies: true
-  loginFlow: []
+  loginFlow:
+    
+    - method: GET
+      url: ertg
+
   authenticationHeaders: []
   parametersScope: SUITE
 flows:
