@@ -17,6 +17,9 @@ flows:
         - method: GET
           url: walla.com
 
+        - method: GET
+          url: ynet.com
+
     runInCi: false
 hooks: {}
 dependencies:
