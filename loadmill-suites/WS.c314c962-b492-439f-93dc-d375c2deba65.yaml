@@ -1,0 +1,80 @@
+conf:
+  meta:
+    description: WS
+  parameters:
+    - cookie: _ga=GA1.1.1316140648.1597651497;
+        _ga_W10P53GD3X=GS1.1.1604831944.1.1.1604833087.0;
+        __utma=111872281.1316140648.1597651497.1605431955.1606340157.3;
+        intercom-id-h9zhjyou=13700c93-612c-4b12-8518-0c137716bd52;
+        _gcl_au=1.1.1803245195.1629015318;
+        _lfa=LF1.1.691ace93daba81de.1634037502071;
+        loadmill.sid=s%3AnFRuaC8_QHor0_okdS9maPLixk0Nfu9m.ee1ST%2FmPBTsPotZoTZ0NjUcqka8SZS%2FPGKCzCaq0wak;
+        _gid=GA1.1.407927056.1636363059;
+        intercom-session-uqy1vrnk=bjZrNVMyNmNXZkZOa1QyRFZnNThrQjBmM1pyRU95a1R6M2M1K3BDY25SY2RxQVFwTnZZVDFvdTBPaU9GUUFFci0tYjc0WUY2MmVoVHJUK1NGcjB0b2VZQT09--58de43a984fd935c157c281fb2bd65238c7985ad
+    - host: ws://localhost:8090
+  useCookies: true
+  loginFlow: []
+  authenticationHeaders:
+    - cookie: _ga=GA1.1.1316140648.1597651497;
+        _ga_W10P53GD3X=GS1.1.1604831944.1.1.1604833087.0;
+        __utma=111872281.1316140648.1597651497.1605431955.1606340157.3;
+        intercom-id-h9zhjyou=13700c93-612c-4b12-8518-0c137716bd52;
+        _lfa=LF1.1.691ace93daba81de.1634037502071;
+        _gcl_au=1.1.614109460.1636963285;
+        _li_id.1fff=d187a8a4-325a-4093-906b-33a2d1f6beb7.1636963285.26.1638097476.1638091326.a9b49891-fe66-4fee-a1e3-0bdc0d790036;
+        loadmill.sid=s%3AWkgofHAmT7JXRdV2GZIKFV_xHYdRYpXr.ZMuL2RwkEj7NVGkBq6ikqgMZcdIxMchLWjnCvSQE3ps;
+        intercom-session-uqy1vrnk=b3ozeVR2QnJPVGxybERQRjgyS0x4ZDFlVFp1YUMzcWt2V3NUWnlJRmM0RzZGT0JFYllEeG50bEZOamVhbGlmYi0tWm9tbjlnazZPSWIvZHlNTVFCMHk2Zz09--dac286dc055db67f53ec1af74d6fa9424d43046d
+  parametersScope: FLOW
+flows:
+  - id: a0ea6c51-061f-4cc2-adcf-4f71cdde0c2b
+    order: 0
+    conf:
+      meta:
+        description: New Load Test - Nov 08
+      requests:
+        
+        - description: Connect to WS & subscribe to updateTeamLabels
+          method: GET
+          url: ${host}/smart
+          postData:
+            text: '{"channel":"subscribe","data":{"channel":"teamLabelsUpdate"}}'
+            mimeType: application/json
+          headers:
+            - cookie: ${cookie}
+
+        - description: Create label & expect ws message in under 10 seconds
+          method: POST
+          url: localhost:8090/api/labels
+          postFormData: []
+          headers:
+            - cookie: _ga=GA1.1.1316140648.1597651497;
+                _ga_W10P53GD3X=GS1.1.1604831944.1.1.1604833087.0;
+                __utma=111872281.1316140648.1597651497.1605431955.1606340157.3;
+                intercom-id-h9zhjyou=13700c93-612c-4b12-8518-0c137716bd52;
+                _gcl_au=1.1.1803245195.1629015318;
+                _lfa=LF1.1.691ace93daba81de.1634037502071;
+                loadmill.sid=s%3AnFRuaC8_QHor0_okdS9maPLixk0Nfu9m.ee1ST%2FmPBTsPotZoTZ0NjUcqka8SZS%2FPGKCzCaq0wak;
+                _gid=GA1.1.407927056.1636363059;
+                intercom-session-uqy1vrnk=bjZrNVMyNmNXZkZOa1QyRFZnNThrQjBmM1pyRU95a1R6M2M1K3BDY25SY2RxQVFwTnZZVDFvdTBPaU9GUUFFci0tYjc0WUY2MmVoVHJUK1NGcjB0b2VZQT09--58de43a984fd935c157c281fb2bd65238c7985ad
+          timeout: 60000
+          extract:
+            - ws_msg:
+                ws: (.*)
+          assert:
+            - check: ws_msg
+
+    runInCi: false
+    assignedLabelsIds:
+      - id: a453f7ab-7779-4df3-8baf-cecc181083f4
+      - id: 7c82abb7-2501-40db-8b81-3d57b7c6a201
+hooks: {}
+dependencies:
+  labels:
+    - id: 7c82abb7-2501-40db-8b81-3d57b7c6a201
+      description: kvnvjnkd
+      color: "#f2d600"
+    - id: a453f7ab-7779-4df3-8baf-cecc181083f4
+      description: gggg
+      color: "#f2d600"
+  login:
+    id: 56964223-770f-4c45-94e3-84c861d46f1e
