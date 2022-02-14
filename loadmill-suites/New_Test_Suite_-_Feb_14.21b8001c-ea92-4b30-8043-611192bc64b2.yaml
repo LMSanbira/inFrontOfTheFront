@@ -1,0 +1,24 @@
+conf:
+  meta:
+    description: New Test Suite - Feb 14
+  parameters: []
+  useCookies: true
+  loginFlow: []
+  authenticationHeaders: []
+  parametersScope: SUITE
+flows:
+  - id: 095116a0-54cb-4260-9d68-8ba42614adde
+    order: 0
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - method: GET
+          url: w
+
+    runInCi: false
+hooks: {}
+dependencies:
+  login:
+    id: 2c764b16-b130-4580-bb85-a8609af7dc9d
