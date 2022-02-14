@@ -67,6 +67,17 @@ flows:
     assignedLabelsIds:
       - id: a453f7ab-7779-4df3-8baf-cecc181083f4
       - id: 7c82abb7-2501-40db-8b81-3d57b7c6a201
+  - id: 0900e3d7-0856-441d-bfa2-47b2b1647200
+    order: 1
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - method: GET
+          url: "444"
+
+    runInCi: false
 hooks: {}
 dependencies:
   labels:
