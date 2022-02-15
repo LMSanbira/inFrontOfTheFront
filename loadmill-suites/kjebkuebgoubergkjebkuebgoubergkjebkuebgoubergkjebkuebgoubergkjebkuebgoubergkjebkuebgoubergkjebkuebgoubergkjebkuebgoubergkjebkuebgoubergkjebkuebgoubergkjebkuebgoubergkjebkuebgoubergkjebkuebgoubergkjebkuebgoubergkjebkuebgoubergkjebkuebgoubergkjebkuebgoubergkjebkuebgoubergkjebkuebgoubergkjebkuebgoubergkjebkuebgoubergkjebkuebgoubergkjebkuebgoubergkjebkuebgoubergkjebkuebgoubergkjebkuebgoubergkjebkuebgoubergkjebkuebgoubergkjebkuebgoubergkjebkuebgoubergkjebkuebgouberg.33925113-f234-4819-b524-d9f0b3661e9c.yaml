@@ -1,0 +1,49 @@
+conf:
+  meta:
+    description: kjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgoubergkjebkuebgouberg
+  parameters: []
+  useCookies: true
+  loginFlow: []
+  authenticationHeaders: []
+  parametersScope: SUITE
+flows:
+  - id: 7435bb3e-7b83-41fc-96b5-5b56987e0b08
+    order: 0
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - method: GET
+          url: google.com
+          assert:
+            - check: __requestStartTime
+          loop:
+            assert:
+              check: __responseEndTime
+            iterations: 1
+
+        - method: GET
+          url: google.com
+          assert:
+            - check: __requestStartTime
+          loop:
+            assert:
+              check: __responseEndTime
+            iterations: 1
+          delay: "1345"
+
+        - method: GET
+          url: google.com
+          assert:
+            - check: __requestStartTime
+          loop:
+            assert:
+              check: __responseEndTime
+            iterations: 1
+
+    runInCi: false
+hooks: {}
+dependencies:
+  login:
+    id: 0b4d1762-d27c-4d9d-9350-6cace00c8593
