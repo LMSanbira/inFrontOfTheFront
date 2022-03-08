@@ -1,0 +1,721 @@
+conf:
+  meta:
+    description: here we go again
+  parameters:
+    - origin_1:
+        - https://loadmill-test-blog.herokuapp.com
+        - sfgnsfgn
+        - sfgn
+        - fgngf
+        - sfgn
+        - sfgnsfgn
+        - sfgn
+        - sfgnfsgn
+        - sf
+        - fgnsfgnsfnsf
+        - fgn
+        - fnaetnaertn
+    - username_in_request_body_4: a@b.com
+    - password_in_request_body_4: Test1234
+    - origin_2: https://loadmill-record-ws-duwqnmxg7pv.herokuapp.com
+    - origin_3: https://api-iam.intercom.io
+    - origin_4: https://github.com
+    - origin_5: https://www.google-analytics.com
+    - origin_6: https://rs.fullstory.com
+    - origin_7: https://stats.g.doubleclick.net
+    - origin_8: https://checkout.stripe.com
+    - origin_9: https://platform.twitter.com
+    - origin_10: https://syndication.twitter.com
+    - origin_11: https://js.stripe.com
+    - origin_12: https://m.stripe.network
+    - origin_13: https://m.stripe.com
+    - origin_14: wss://loadmill-record-ws-duwqnmxg7pv.herokuapp.com
+    - origin_15: wss://nexus-websocket-a.intercom.io
+    - bqeroiubvbijoihjvehjjhrbhifeujbijirbjewoihrbhjfrjeoirhugfjeowihgrufejowwhirguriejwkpjwohrigrejowwrhituejworhigejowrhigirjeowrigf: "2"
+  useCookies: true
+  loginFlow: []
+  authenticationHeaders: []
+  parametersScope: SUITE
+flows:
+  - id: 920b3c3f-8ae7-49ae-9354-52a98ad662a3
+    order: 0
+    conf:
+      meta:
+        description: Recorded Flow - Mar 07 15:27
+      requests:
+        
+        - description: GET /
+          method: GET
+          url: ${origin_1}/
+
+        - description: GET ghost
+          method: GET
+          url: ${origin_1}/ghost
+
+        - description: GET ghost
+          method: GET
+          url: ${origin_1}/ghost/
+          extract:
+            - meta_name_env_blogUrl_in_response_body_3:
+                jQuery:
+                  query: meta[name="env-blogUrl"]
+                  attr: content
+            - meta_name_env_clientId_in_response_body_3:
+                jQuery:
+                  query: meta[name="env-clientId"]
+                  attr: content
+            - meta_name_env_clientSecret_in_response_body_3:
+                jQuery:
+                  query: meta[name="env-clientSecret"]
+                  attr: content
+          assert:
+            - check: meta_name_env_blogUrl_in_response_body_3
+            - check: meta_name_env_clientId_in_response_body_3
+            - check: meta_name_env_clientSecret_in_response_body_3
+
+        - description: POST authentication/token
+          method: POST
+          url: ${origin_1}/ghost/api/v0.1/authentication/token
+          postData:
+            text: grant_type=password&username=${__encode_url(username_in_request_body_4)}&password=${__encode_url(password_in_request_body_4)}&client_id=${__encode_url(meta_name_env_clientId_in_response_body_3)}&client_secret=${__encode_url(meta_name_env_clientSecret_in_response_body_3)}
+            mimeType: application/x-www-form-urlencoded
+          extract:
+            - access_token_in_response_body_4:
+                jsonPath: $["access_token"]
+            - token_type_in_response_body_4:
+                jsonPath: $["token_type"]
+          assert:
+            - check: access_token_in_response_body_4
+            - check: token_type_in_response_body_4
+
+        - description: GET settings
+          method: GET
+          url: ${origin_1}/ghost/api/v0.1/settings/?type=blog%2Ctheme%2Cprivate
+          headers:
+            - Authorization: ${token_type_in_response_body_4}
+                ${access_token_in_response_body_4}
+
+        - description: GET users/me
+          method: GET
+          url: ${origin_1}/ghost/api/v0.1/users/me/?include=roles&status=all
+          headers:
+            - Authorization: ${token_type_in_response_body_4}
+                ${access_token_in_response_body_4}
+          extract:
+            - language_of_1st_user_in_response_body_6:
+                jsonPath: $["users"][0]["language"]
+          assert:
+            - check: language_of_1st_user_in_response_body_6
+
+        - description: GET posts
+          method: GET
+          url: ${origin_1}/ghost/api/v0.1/posts/?page=1&limit=15&status=all&staticPages=all&include=tags
+          headers:
+            - Authorization: ${token_type_in_response_body_4}
+                ${access_token_in_response_body_4}
+
+        - description: GET notifications
+          method: GET
+          url: ${origin_1}/ghost/api/v0.1/notifications/
+          headers:
+            - Authorization: ${token_type_in_response_body_4}
+                ${access_token_in_response_body_4}
+
+        - description: GET settings
+          method: GET
+          url: ${origin_1}/ghost/api/v0.1/settings/?type=blog%2Ctheme%2Cprivate
+          headers:
+            - Authorization: ${token_type_in_response_body_4}
+                ${access_token_in_response_body_4}
+
+        - description: GET tags
+          method: GET
+          url: ${origin_1}/ghost/api/v0.1/tags/?limit=all
+          headers:
+            - Authorization: ${token_type_in_response_body_4}
+                ${access_token_in_response_body_4}
+
+        - description: GET users
+          method: GET
+          url: ${origin_1}/ghost/api/v0.1/users/?limit=all&include=roles
+          headers:
+            - Authorization: ${token_type_in_response_body_4}
+                ${access_token_in_response_body_4}
+
+        - description: GET slugs/post/test
+          method: GET
+          url: ${origin_1}/ghost/api/v0.1/slugs/post/test/
+          headers:
+            - Authorization: ${token_type_in_response_body_4}
+                ${access_token_in_response_body_4}
+          extract:
+            - slug_of_1st_slug_in_response_body_12:
+                jsonPath: $["slugs"][0]["slug"]
+          assert:
+            - check: slug_of_1st_slug_in_response_body_12
+
+        - description: POST posts
+          method: POST
+          url: ${origin_1}/ghost/api/v0.1/posts/?include=tags
+          postData:
+            text: >-
+              {
+                "posts": [
+                  {
+                    "title": "test",
+                    "slug": "${__escape_quotes(slug_of_1st_slug_in_response_body_12)}",
+                    "markdown": "",
+                    "image": null,
+                    "featured": false,
+                    "page": false,
+                    "status": "draft",
+                    "language": "${__escape_quotes(language_of_1st_user_in_response_body_6)}",
+                    "meta_title": null,
+                    "meta_description": null,
+                    "author": "1",
+                    "publishedBy": null,
+                    "tags": []
+                  }
+                ]
+              }
+            mimeType: application/json; charset=UTF-8
+          headers:
+            - Authorization: ${token_type_in_response_body_4}
+                ${access_token_in_response_body_4}
+          extract:
+            - id_of_1st_post_in_response_body_13:
+                jsonPath: $["posts"][0]["id"]
+            - updated_at_of_1st_post_in_response_body_13:
+                jsonPath: $["posts"][0]["updated_at"]
+            - author_of_1st_post_in_response_body_13:
+                jsonPath: $["posts"][0]["author"]
+            - created_at_of_1st_post_in_response_body_13:
+                jsonPath: $["posts"][0]["created_at"]
+            - created_by_of_1st_post_in_response_body_13:
+                jsonPath: $["posts"][0]["created_by"]
+            - updated_by_of_1st_post_in_response_body_13:
+                jsonPath: $["posts"][0]["updated_by"]
+          assert:
+            - check: id_of_1st_post_in_response_body_13
+            - check: updated_at_of_1st_post_in_response_body_13
+            - check: author_of_1st_post_in_response_body_13
+            - check: created_at_of_1st_post_in_response_body_13
+            - check: created_by_of_1st_post_in_response_body_13
+            - check: updated_by_of_1st_post_in_response_body_13
+
+        - description: PUT posts/${id_of_1st_post}
+          method: PUT
+          url: ${origin_1}/ghost/api/v0.1/posts/${__encode_url(id_of_1st_post_in_response_body_13)}/?include=tags
+          postData:
+            text: >-
+              {
+                "posts": [
+                  {
+                    "id": ${__escape_quotes(id_of_1st_post_in_response_body_13)},
+                    "title": "test",
+                    "slug": "${__escape_quotes(slug_of_1st_slug_in_response_body_12)}",
+                    "markdown": "test",
+                    "image": null,
+                    "featured": false,
+                    "page": false,
+                    "status": "draft",
+                    "language": "${__escape_quotes(language_of_1st_user_in_response_body_6)}",
+                    "meta_title": null,
+                    "meta_description": null,
+                    "updated_at": "${__escape_quotes(updated_at_of_1st_post_in_response_body_13)}",
+                    "updated_by": ${__escape_quotes(updated_by_of_1st_post_in_response_body_13)},
+                    "published_at": null,
+                    "created_at": "${__escape_quotes(created_at_of_1st_post_in_response_body_13)}",
+                    "created_by": ${__escape_quotes(created_by_of_1st_post_in_response_body_13)},
+                    "author": ${__escape_quotes(author_of_1st_post_in_response_body_13)},
+                    "publishedBy": null,
+                    "tags": []
+                  }
+                ]
+              }
+            mimeType: application/json; charset=UTF-8
+          headers:
+            - Authorization: ${token_type_in_response_body_4}
+                ${access_token_in_response_body_4}
+          extract:
+            - id_of_1st_post_in_response_body_14:
+                jsonPath: $["posts"][0]["id"]
+            - updated_at_of_1st_post_in_response_body_14:
+                jsonPath: $["posts"][0]["updated_at"]
+            - author_of_1st_post_in_response_body_14:
+                jsonPath: $["posts"][0]["author"]
+          assert:
+            - check: id_of_1st_post_in_response_body_14
+            - check: updated_at_of_1st_post_in_response_body_14
+            - check: author_of_1st_post_in_response_body_14
+
+        - description: PUT posts/${id_of_1st_post}
+          method: PUT
+          url: ${origin_1}/ghost/api/v0.1/posts/${__encode_url(id_of_1st_post_in_response_body_14)}/?include=tags
+          postData:
+            text: >-
+              {
+                "posts": [
+                  {
+                    "id": ${__escape_quotes(id_of_1st_post_in_response_body_14)},
+                    "title": "test",
+                    "slug": "${__escape_quotes(slug_of_1st_slug_in_response_body_12)}",
+                    "markdown": "test123",
+                    "image": null,
+                    "featured": false,
+                    "page": false,
+                    "status": "draft",
+                    "language": "${__escape_quotes(language_of_1st_user_in_response_body_6)}",
+                    "meta_title": null,
+                    "meta_description": null,
+                    "updated_at": "${__escape_quotes(updated_at_of_1st_post_in_response_body_14)}",
+                    "updated_by": ${__escape_quotes(updated_by_of_1st_post_in_response_body_13)},
+                    "published_at": null,
+                    "created_at": "${__escape_quotes(created_at_of_1st_post_in_response_body_13)}",
+                    "created_by": ${__escape_quotes(created_by_of_1st_post_in_response_body_13)},
+                    "author": ${__escape_quotes(author_of_1st_post_in_response_body_14)},
+                    "publishedBy": null,
+                    "tags": []
+                  }
+                ]
+              }
+            mimeType: application/json; charset=UTF-8
+          headers:
+            - Authorization: ${token_type_in_response_body_4}
+                ${access_token_in_response_body_4}
+          extract:
+            - id_of_1st_post_in_response_body_15:
+                jsonPath: $["posts"][0]["id"]
+            - updated_at_of_1st_post_in_response_body_15:
+                jsonPath: $["posts"][0]["updated_at"]
+            - author_of_1st_post_in_response_body_15:
+                jsonPath: $["posts"][0]["author"]
+          assert:
+            - check: id_of_1st_post_in_response_body_15
+            - check: updated_at_of_1st_post_in_response_body_15
+            - check: author_of_1st_post_in_response_body_15
+
+        - description: PUT posts/${id_of_1st_post}
+          method: PUT
+          url: ${origin_1}/ghost/api/v0.1/posts/${__encode_url(id_of_1st_post_in_response_body_15)}/?include=tags
+          postData:
+            text: >-
+              {
+                "posts": [
+                  {
+                    "id": ${__escape_quotes(id_of_1st_post_in_response_body_15)},
+                    "title": "test123",
+                    "slug": "${__escape_quotes(slug_of_1st_slug_in_response_body_12)}",
+                    "markdown": "test123",
+                    "image": null,
+                    "featured": false,
+                    "page": false,
+                    "status": "published",
+                    "language": "${__escape_quotes(language_of_1st_user_in_response_body_6)}",
+                    "meta_title": null,
+                    "meta_description": null,
+                    "updated_at": "${__escape_quotes(updated_at_of_1st_post_in_response_body_15)}",
+                    "updated_by": ${__escape_quotes(updated_by_of_1st_post_in_response_body_13)},
+                    "published_at": null,
+                    "created_at": "${__escape_quotes(created_at_of_1st_post_in_response_body_13)}",
+                    "created_by": ${__escape_quotes(created_by_of_1st_post_in_response_body_13)},
+                    "author": ${__escape_quotes(author_of_1st_post_in_response_body_15)},
+                    "publishedBy": null,
+                    "tags": []
+                  }
+                ]
+              }
+            mimeType: application/json; charset=UTF-8
+          headers:
+            - Authorization: ${token_type_in_response_body_4}
+                ${access_token_in_response_body_4}
+
+    runInCi: false
+  - id: 67703f09-9ff1-4b24-a937-feb7b7d33b4b
+    order: 1
+    conf:
+      meta:
+        description: Recorded Flow - Mar 07 15:29
+      requests:
+        
+        - description: GET api/test-suites/UUID
+          method: GET
+          url: ${origin_2}/api/test-suites/d6d7bee0-bfb6-459c-a779-2d4487dd5da9
+          extract:
+            - origin_2_of_2nd_parameter_conf_in_response_body_1:
+                jsonPath: $["conf"]["parameters"][1]["origin_2"]
+            - id_of_1st_collaborator_in_response_body_1:
+                jsonPath: $["collaborators"][0]["id"]
+            - email_of_1st_collaborator_in_response_body_1:
+                jsonPath: $["collaborators"][0]["email"]
+            - id_in_response_body_1:
+                jsonPath: $["id"]
+            - id_of_1st_flow_in_response_body_1:
+                jsonPath: $["flows"][0]["id"]
+          assert:
+            - check: origin_2_of_2nd_parameter_conf_in_response_body_1
+            - check: id_of_1st_collaborator_in_response_body_1
+            - check: email_of_1st_collaborator_in_response_body_1
+            - check: id_in_response_body_1
+            - check: id_of_1st_flow_in_response_body_1
+
+        - description: GET api/labels
+          method: GET
+          url: ${origin_2}/api/labels
+
+        - description: POST messenger/web/ping
+          method: POST
+          url: ${origin_3}/messenger/web/ping
+          postData:
+            text: app_id=uqy1vrnk&v=3&g=undefined&s=f571244e-1473-4205-9e14-a59d84fb3954&r=&platform=web&Idempotency-Key=07142df376572b8b&internal=%7B%7D&page_title=Loadmill%20-%20Test%20Suite&user_active_company_id=-1&user_data=%7B%22email%22%3A%22${__encode_url(email_of_1st_collaborator_in_response_body_1)}%22%2C%22user_id%22%3A%22${__encode_url(id_of_1st_collaborator_in_response_body_1)}%22%2C%22anonymous_id%22%3A%22daa1d277-3efd-4c7c-8872-9125fdf2eeef%22%7D&source=apiUpdate&sampling=false&referer=https%3A%2F%2Floadmill-record-ws-duwqnmxg7pv.herokuapp.com%2Fapp%2Fapi-tests%2Ftest-suites%2Fd6d7bee0-bfb6-459c-a779-2d4487dd5da9%2Fflows&anonymous_session=NUpqbXBoSU8rME5qWGdWSXh1TkY1SkthMGVNTkVFa3J5QzdORGpaSzlqUnFOSHA1RE9ycktWWHFqUzB3ckJVRy0tREk0R2pzQi9VbzZSQmZYSE9WU085Zz09--677a9d7e57ad1a442597504557379f723d1d3ad7
+            mimeType: application/x-www-form-urlencoded
+          extract:
+            - origin_cookie_domain_in_response_body_3:
+                jsonPath: $["origin_cookie_domain"]
+            - anonymous_session_in_response_body_3:
+                jsonPath: $["anonymous_session"]
+          assert:
+            - check: origin_cookie_domain_in_response_body_3
+            - check: anonymous_session_in_response_body_3
+
+        - description: GET api/test-suites/${id}/flows/${id_of_1st_flow}
+          method: GET
+          url: ${origin_2}/api/test-suites/${__encode_url(id_in_response_body_1)}/flows/${__encode_url(id_of_1st_flow_in_response_body_1)}
+          extract:
+            - method_of_2nd_request_conf_in_response_body_4:
+                jsonPath: $["conf"]["requests"][1]["method"]
+            - method_of_1st_request_conf_in_response_body_4:
+                jsonPath: $["conf"]["requests"][0]["method"]
+            - mimeType_postDatum_of_3rd_request_conf_in_response_body_4:
+                jsonPath: $["conf"]["requests"][2]["postData"]["mimeType"]
+          assert:
+            - check: method_of_2nd_request_conf_in_response_body_4
+            - check: method_of_1st_request_conf_in_response_body_4
+            - check: mimeType_postDatum_of_3rd_request_conf_in_response_body_4
+
+        - description: GET auth/logged-in-user
+          method: GET
+          url: ${origin_2}/auth/logged-in-user
+
+        - description: POST messenger/web/ping
+          method: POST
+          url: ${origin_3}/messenger/web/ping
+          postData:
+            text: app_id=uqy1vrnk&v=3&g=undefined&s=f571244e-1473-4205-9e14-a59d84fb3954&r=&platform=web&Idempotency-Key=38266892d5c06137&internal=%7B%7D&page_title=Loadmill%20-%20Test%20Suite%20-%20New%20Test%20Suite%20-%20Jan%2017&user_active_company_id=-1&user_data=%7B%22email%22%3A%22${__encode_url(email_of_1st_collaborator_in_response_body_1)}%22%2C%22user_id%22%3A%22${__encode_url(id_of_1st_collaborator_in_response_body_1)}%22%2C%22anonymous_id%22%3A%22daa1d277-3efd-4c7c-8872-9125fdf2eeef%22%7D&source=apiUpdate&sampling=false&referer=https%3A%2F%2Floadmill-record-ws-duwqnmxg7pv.herokuapp.com%2Fapp%2Fapi-tests%2Ftest-suites%2Fd6d7bee0-bfb6-459c-a779-2d4487dd5da9%2Fflows%2Ff1d1de0a-f0d8-4920-a776-3ef9e7e60b31&anonymous_session=${__encode_url(anonymous_session_in_response_body_3)}
+            mimeType: application/x-www-form-urlencoded
+          extract:
+            - anonymous_session_in_response_body_6:
+                jsonPath: $["anonymous_session"]
+          assert:
+            - check: anonymous_session_in_response_body_6
+
+        - description: POST messenger/web/ping
+          method: POST
+          url: ${origin_3}/messenger/web/ping
+          postData:
+            text: app_id=uqy1vrnk&v=3&g=undefined&s=f571244e-1473-4205-9e14-a59d84fb3954&r=&platform=web&Idempotency-Key=94bcf8f2f115b360&internal=%7B%7D&page_title=Loadmill%20-%20Test%20Suite%20-%20New%20Test%20Suite%20-%20Jan%2017&user_active_company_id=-1&user_data=%7B%22email%22%3A%22${__encode_url(email_of_1st_collaborator_in_response_body_1)}%22%2C%22user_id%22%3A%22${__encode_url(id_of_1st_collaborator_in_response_body_1)}%22%2C%22anonymous_id%22%3A%22daa1d277-3efd-4c7c-8872-9125fdf2eeef%22%7D&source=apiUpdate&sampling=false&referer=https%3A%2F%2Floadmill-record-ws-duwqnmxg7pv.herokuapp.com%2Fapp%2Fapi-tests%2Ftest-suites%2Fd6d7bee0-bfb6-459c-a779-2d4487dd5da9%2Fflows%2Ff1d1de0a-f0d8-4920-a776-3ef9e7e60b31&anonymous_session=${__encode_url(anonymous_session_in_response_body_6)}
+            mimeType: application/x-www-form-urlencoded
+          extract:
+            - anonymous_session_in_response_body_7:
+                jsonPath: $["anonymous_session"]
+          assert:
+            - check: anonymous_session_in_response_body_7
+
+        - description: POST messenger/web/ping
+          method: POST
+          url: ${origin_3}/messenger/web/ping
+          postData:
+            text: app_id=uqy1vrnk&v=3&g=undefined&s=f571244e-1473-4205-9e14-a59d84fb3954&r=&platform=web&Idempotency-Key=6aa01c1e7b55a1c1&internal=%7B%7D&page_title=Loadmill%20-%20Test%20Suite%20-%20New%20Test%20Suite%20-%20Jan%2017&user_active_company_id=-1&user_data=%7B%22email%22%3A%22${__encode_url(email_of_1st_collaborator_in_response_body_1)}%22%2C%22user_id%22%3A%22${__encode_url(id_of_1st_collaborator_in_response_body_1)}%22%2C%22anonymous_id%22%3A%22daa1d277-3efd-4c7c-8872-9125fdf2eeef%22%2C%22name%22%3A%22Gilad%22%2C%22Can%20Pay%22%3Afalse%2C%22Team%20Role%22%3A%22admin%22%2C%22Team%20Id%22%3A%222eef51e3-6dd6-4310-a070-589cb945b331%22%2C%22Plan%22%3A%22FREE%22%2C%22Monthly%20Cost%3A%22%3A0%2C%22Identity%20Verified%22%3Atrue%2C%22Max%20Concurrency%22%3A50%2C%22Monthly%20Test%20Minutes%22%3A60%2C%22Remaining%20Test%20Minutes%22%3A60%2C%22API%20Test%20runs%22%3A0%7D&source=apiUpdate&sampling=false&referer=https%3A%2F%2Floadmill-record-ws-duwqnmxg7pv.herokuapp.com%2Fapp%2Fapi-tests%2Ftest-suites%2Fd6d7bee0-bfb6-459c-a779-2d4487dd5da9%2Fflows%2Ff1d1de0a-f0d8-4920-a776-3ef9e7e60b31&anonymous_session=${__encode_url(anonymous_session_in_response_body_7)}
+            mimeType: application/x-www-form-urlencoded
+          extract:
+            - anonymous_session_in_response_body_8:
+                jsonPath: $["anonymous_session"]
+          assert:
+            - check: anonymous_session_in_response_body_8
+
+        - description: GET app/api-tests/test-suites/${id}/flows/${id_of_1st_flow}
+          method: GET
+          url: ${origin_2}/app/api-tests/test-suites/${__encode_url(id_in_response_body_1)}/flows/${__encode_url(id_of_1st_flow_in_response_body_1)}
+
+        - description: GET downloads/lafeber/world-flags-sprite/flags32.css
+          method: GET
+          url: ${origin_4}/downloads/lafeber/world-flags-sprite/flags32.css
+
+        - description: POST j/collect
+          method: POST
+          url: ${origin_5}/j/collect?v=1&_v=j96&a=1893558576&t=pageview&_s=1&dl=https%3A%2F%2Floadmill-record-ws-duwqnmxg7pv.herokuapp.com%2Fapp%2Fapi-tests%2Ftest-suites%2Fd6d7bee0-bfb6-459c-a779-2d4487dd5da9%2Fflows%2Ff1d1de0a-f0d8-4920-a776-3ef9e7e60b31&ul=en-us&de=UTF-8&dt=Loadmill&sd=24-bit&sr=1920x1080&vp=1920x946&je=0&_u=AACAAEABAAAAAC~&jid=1377993289&gjid=1823427228&cid=971789729.1642428523&tid=UA-83264724-1&_gid=1949061454.1642428523&_r=1&_slc=1&z=654796827
+          headers:
+            - content-type: ${mimeType_postDatum_of_3rd_request_conf_in_response_body_4}
+
+        - description: POST rec/page
+          method: POST
+          url: ${origin_6}/rec/page
+          postData:
+            text: '{"OrgId":"T8JTR","UserId":"","Url":"https://loadmill-record-ws-duwqnmxg7pv.herokuapp.com/app/api-tests/test-suites/d6d7bee0-bfb6-459c-a779-2d4487dd5da9/flows/f1d1de0a-f0d8-4920-a776-3ef9e7e60b31","Base":"https://loadmill-record-ws-duwqnmxg7pv.herokuapp.com/app/api-tests/test-suites/d6d7bee0-bfb6-459c-a779-2d4487dd5da9/flows/f1d1de0a-f0d8-4920-a776-3ef9e7e60b31","Width":1920,"Height":946,"ScreenWidth":1920,"ScreenHeight":1080,"Referrer":"","Preroll":667,"Doctype":"<!DOCTYPE
+              html>","CompiledVersion":"2b726701ad","CompiledTimestamp":1641491608}'
+            mimeType: text/plain
+
+        - description: POST j/collect
+          method: POST
+          url: ${origin_7}/j/collect?t=dc&aip=1&_r=3&v=1&_v=j96&tid=UA-83264724-1&cid=971789729.1642428523&jid=1377993289&gjid=1823427228&_gid=1949061454.1642428523&_u=AACAAEAAAAAAAC~&z=1977774486
+          headers:
+            - content-type: ${mimeType_postDatum_of_3rd_request_conf_in_response_body_4}
+
+        - description: GET auth/logged-in-user
+          method: GET
+          url: ${origin_2}/auth/logged-in-user
+
+        - description: GET SnA7qjV1jnTGuEjVlQhvJg.html
+          method: GET
+          url: ${origin_8}/v3/SnA7qjV1jnTGuEjVlQhvJg.html?distinct_id=1ea2690e-1533-df7c-d20f-3d87dead0ff1
+
+        - description: GET widgets/widget_iframe.ID.html
+          method: GET
+          url: ${origin_9}/widgets/widget_iframe.e37c957bd3ae00473b95800b99e19cff.html?origin=https%3A%2F%2Floadmill-record-ws-duwqnmxg7pv.herokuapp.com
+
+        - description: GET settings
+          method: GET
+          url: ${origin_10}/settings?session_id=ec537253287d910d2ca5e2cf89b921db80ee87e4
+
+        - description: GET m/outer.html
+          method: GET
+          url: ${origin_11}/v2/m/outer.html
+
+        - description: GET api/test-suites/${id}
+          method: GET
+          url: ${origin_2}/api/test-suites/${__encode_url(id_in_response_body_1)}
+
+        - description: GET api/labels
+          method: GET
+          url: ${origin_2}/api/labels
+
+        - description: GET inner.html
+          method: GET
+          url: ${origin_12}/inner.html
+
+        - description: POST 6
+          method: POST
+          url: ${origin_13}/6
+          postData:
+            text: JTdCJTIydjIlMjIlM0ExJTJDJTIyaWQlMjIlM0ElMjJjMGQ3MzcyNWE4ZDg5NjZmNzc0MjRmZDJkNjJhOWQxMCUyMiUyQyUyMnQlMjIlM0E0MzkuMiUyQyUyMnRhZyUyMiUzQSUyMjQuNS40MSUyMiUyQyUyMnNyYyUyMiUzQSUyMmpzJTIyJTJDJTIyYSUyMiUzQW51bGwlMkMlMjJiJTIyJTNBJTdCJTIyYSUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGaUw1cFg1ekJGbnN2OGN2OFlRSjVUal9nTzRPYUhkNjJ0RUxwdFNxeDY0ay54aGtWNTdhbURFUzBkLThYUlJ2Y1JvQ184dVVtb1Mxc3pRR0JHaEpCY0Z3LmcydTktaHFadkdJcVlKY1BsUGZ3SkFmLXYzUmd5S194MU5wcHpBbEExMk0lMkYlMjIlMkMlMjJiJTIyJTNBJTIyaHR0cHMlM0ElMkYlMkZjaGVja291dC5zdHJpcGUuY29tJTJGZzFNeXJ5OXR6X1lvOTlVRHhhLWlWT0dyVGpjazdEQXo1dmplckZQX3hlcyUyRklkcWdGUEdrSGJNNk1fWTF4VldUMWRvVmluZlRfaXJuQ0V2OHBkQnpGb1UlM0YzbVY1akRaVlJmWE5Db1lNaWZOcnl5WUpVb1hZUHRMaXJJWFdlQTJaN1c4JTNEUDZWa3d1bDQ2QXlqRUZzTE5FWWRMVTVqa25LSUpMLWstZWUzblpzQjJmTSUyMiUyQyUyMmMlMjIlM0ElMjJESWNwMUgwNF9tYVRtckpXdFFEblJ3ampLTDhhcDBLRzc0TEIwTHJBVnZRJTIyJTJDJTIyZCUyMiUzQSUyMk5BJTIyJTJDJTIyZSUyMiUzQSUyMk5BJTIyJTJDJTIyZiUyMiUzQWZhbHNlJTJDJTIyZyUyMiUzQXRydWUlMkMlMjJoJTIyJTNBdHJ1ZSUyQyUyMmklMjIlM0ElNUIlMjJsb2NhdGlvbiUyMiU1RCUyQyUyMmolMjIlM0ElNUIlNUQlMkMlMjJuJTIyJTNBMTQwLjU5OTk5OTk2NDIzNzIlMkMlMjJ1JTIyJTNBJTIyY2hlY2tvdXQuc3RyaXBlLmNvbSUyMiUyQyUyMnYlMjIlM0ElMjJsb2FkbWlsbC1yZWNvcmQtd3MtZHV3cW5teGc3cHYuaGVyb2t1YXBwLmNvbSUyMiU3RCUyQyUyMmglMjIlM0ElMjJhYjNkYjE4MWVjZjY4MzE3MzAwYSUyMiU3RA==
+            mimeType: text/plain;charset=UTF-8
+
+        - description: GET data/locales/en-0PDlyE0Lr4yvHwUwnydXcQ.json
+          method: GET
+          url: ${origin_8}/v3/data/locales/en-0PDlyE0Lr4yvHwUwnydXcQ.json
+          extract:
+            - locale_in_response_body_23:
+                jsonPath: $["locale"]
+          assert:
+            - check: locale_in_response_body_23
+
+        - description: GET api/bootstrap
+          method: GET
+          url: ${origin_8}/api/bootstrap?key=pk_test_GYgenoFRwmuPNh9TkrE0ox8t&locale=${__encode_url(locale_in_response_body_23)}
+          headers:
+            - stripe-checkout-test-session: eb906754-e479-48b0-91ee-a2e9a7f33c7d
+
+        - description: WS Send smart
+          method: POST
+          url: ${origin_14}/smart
+          postData:
+            text: |-
+              {
+                "channel": "subscribe",
+                "data": {
+                  "channel": "teamLabelsUpdate"
+                }
+              }
+            mimeType: application/json
+          headers:
+            - Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+            - Sec-WebSocket-Version: "13"
+
+        - description: WS Send smart
+          method: POST
+          url: ${origin_14}/smart
+          postData:
+            text: |-
+              {
+                "channel": "subscribe",
+                "data": {
+                  "channel": "agents"
+                }
+              }
+            mimeType: application/json
+          headers:
+            - Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+            - Sec-WebSocket-Version: "13"
+
+        - description: GET api/test-suites/${id}/flows/${id_of_1st_flow}
+          method: GET
+          url: ${origin_2}/api/test-suites/${__encode_url(id_in_response_body_1)}/flows/${__encode_url(id_of_1st_flow_in_response_body_1)}
+
+        - description: WS Send smart
+          method: POST
+          url: ${origin_14}/smart
+          postData:
+            text: >-
+              {
+                "channel": "subscribe",
+                "data": {
+                  "channel": "testSuiteUpdate/d6d7bee0-bfb6-459c-a779-2d4487dd5da9"
+                }
+              }
+            mimeType: application/json
+          headers:
+            - Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+            - Sec-WebSocket-Version: "13"
+
+        - description: POST 6
+          method: POST
+          url: ${origin_13}/6
+          postData:
+            text: JTdCJTIydjIlMjIlM0EyJTJDJTIyaWQlMjIlM0ElMjJjMGQ3MzcyNWE4ZDg5NjZmNzc0MjRmZDJkNjJhOWQxMCUyMiUyQyUyMnQlMjIlM0ExMy44JTJDJTIydGFnJTIyJTNBJTIyNC41LjQxJTIyJTJDJTIyc3JjJTIyJTNBJTIyanMlMjIlMkMlMjJhJTIyJTNBJTdCJTIyYSUyMiUzQSU3QiUyMnYlMjIlM0ElMjJ0cnVlJTIyJTJDJTIydCUyMiUzQTAuNCU3RCUyQyUyMmIlMjIlM0ElN0IlMjJ2JTIyJTNBJTIyZmFsc2UlMjIlMkMlMjJ0JTIyJTNBMCU3RCUyQyUyMmMlMjIlM0ElN0IlMjJ2JTIyJTNBJTIyZW4tVVMlMkNlbiUyQ2hlJTIyJTJDJTIydCUyMiUzQTAlN0QlMkMlMjJkJTIyJTNBJTdCJTIydiUyMiUzQSUyMk1hY0ludGVsJTIyJTJDJTIydCUyMiUzQTAlN0QlMkMlMjJlJTIyJTNBJTdCJTIydiUyMiUzQSUyMlBERiUyMFZpZXdlciUyQ2ludGVybmFsLXBkZi12aWV3ZXIlMkNhcHBsaWNhdGlvbiUyRnBkZiUyQ3BkZiUyQiUyQnRleHQlMkZwZGYlMkNwZGYlMkMlMjBDaHJvbWUlMjBQREYlMjBWaWV3ZXIlMkNpbnRlcm5hbC1wZGYtdmlld2VyJTJDYXBwbGljYXRpb24lMkZwZGYlMkNwZGYlMkIlMkJ0ZXh0JTJGcGRmJTJDcGRmJTJDJTIwQ2hyb21pdW0lMjBQREYlMjBWaWV3ZXIlMkNpbnRlcm5hbC1wZGYtdmlld2VyJTJDYXBwbGljYXRpb24lMkZwZGYlMkNwZGYlMkIlMkJ0ZXh0JTJGcGRmJTJDcGRmJTJDJTIwTWljcm9zb2Z0JTIwRWRnZSUyMFBERiUyMFZpZXdlciUyQ2ludGVybmFsLXBkZi12aWV3ZXIlMkNhcHBsaWNhdGlvbiUyRnBkZiUyQ3BkZiUyQiUyQnRleHQlMkZwZGYlMkNwZGYlMkMlMjBXZWJLaXQlMjBidWlsdC1pbiUyMFBERiUyQ2ludGVybmFsLXBkZi12aWV3ZXIlMkNhcHBsaWNhdGlvbiUyRnBkZiUyQ3BkZiUyQiUyQnRleHQlMkZwZGYlMkNwZGYlMjIlMkMlMjJ0JTIyJTNBMCU3RCUyQyUyMmYlMjIlM0ElN0IlMjJ2JTIyJTNBJTIyMTkyMHdfMTA1N2hfMjRkXzFyJTIyJTJDJTIydCUyMiUzQTAlN0QlMkMlMjJnJTIyJTNBJTdCJTIydiUyMiUzQSUyMjIlMjIlMkMlMjJ0JTIyJTNBMCU3RCUyQyUyMmglMjIlM0ElN0IlMjJ2JTIyJTNBJTIyZmFsc2UlMjIlMkMlMjJ0JTIyJTNBMCU3RCUyQyUyMmklMjIlM0ElN0IlMjJ2JTIyJTNBJTIyc2Vzc2lvblN0b3JhZ2UtZW5hYmxlZCUyQyUyMGxvY2FsU3RvcmFnZS1lbmFibGVkJTIyJTJDJTIydCUyMiUzQTAlN0QlMkMlMjJqJTIyJTNBJTdCJTIydiUyMiUzQSUyMjAxMDAxMTExMDAwMDAwMDAxMDAwMDAxMTExMDAwMDAwMDAwMDAwMTAwMDEwMDAwMTAxMTExMTElMjIlMkMlMjJ0JTIyJTNBMTIuOCU3RCUyQyUyMmslMjIlM0ElN0IlMjJ2JTIyJTNBJTIyJTIyJTJDJTIydCUyMiUzQTAlN0QlMkMlMjJsJTIyJTNBJTdCJTIydiUyMiUzQSUyMk1vemlsbGElMkY1LjAlMjAoTWFjaW50b3NoJTNCJTIwSW50ZWwlMjBNYWMlMjBPUyUyMFglMjAxMF8xNF82KSUyMEFwcGxlV2ViS2l0JTJGNTM3LjM2JTIwKEtIVE1MJTJDJTIwbGlrZSUyMEdlY2tvKSUyMENocm9tZSUyRjk3LjAuNDY5Mi43MSUyMFNhZmFyaSUyRjUzNy4zNiUyMiUyQyUyMnQlMjIlM0EwJTdEJTJDJTIybSUyMiUzQSU3QiUyMnYlMjIlM0ElMjIlMjIlMkMlMjJ0JTIyJTNBMCU3RCUyQyUyMm4lMjIlM0ElN0IlMjJ2JTIyJTNBJTIydHJ1ZSUyMiUyQyUyMnQlMjIlM0ExMi43JTdEJTJDJTIybyUyMiUzQSU3QiUyMnYlMjIlM0ElMjI3MGQ5MzEwYmEzZTg1YjUxOWZiMWUyMTg0ZDkyZmUxZSUyMiUyQyUyMnQlMjIlM0ExMi41JTdEJTdEJTJDJTIyYiUyMiUzQSU3QiUyMmElMjIlM0ElMjJodHRwcyUzQSUyRiUyRmNoZWNrb3V0LnN0cmlwZS5jb20lMkZnMU15cnk5dHpfWW85OVVEeGEtaVZPR3JUamNrN0RBejV2amVyRlBfeGVzJTJGSWRxZ0ZQR2tIYk02TV9ZMXhWV1QxZG9WaW5mVF9pcm5DRXY4cGRCekZvVSUzRjNtVjVqRFpWUmZYTkNvWU1pZk5yeXlZSlVvWFlQdExpcklYV2VBMlo3VzglM0RQNlZrd3VsNDZBeWpFRnNMTkVZZExVNWprbktJSkwtay1lZTNuWnNCMmZNJTIyJTJDJTIyYiUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGY2hlY2tvdXQuc3RyaXBlLmNvbSUyRmcxTXlyeTl0el9Zbzk5VUR4YS1pVk9HclRqY2s3REF6NXZqZXJGUF94ZXMlMkZJZHFnRlBHa0hiTTZNX1kxeFZXVDFkb1ZpbmZUX2lybkNFdjhwZEJ6Rm9VJTNGM21WNWpEWlZSZlhOQ29ZTWlmTnJ5eVlKVW9YWVB0TGlySVhXZUEyWjdXOCUzRFA2Vmt3dWw0NkF5akVGc0xORVlkTFU1amtuS0lKTC1rLWVlM25ac0IyZk0lMjIlMkMlMjJjJTIyJTNBJTIyREljcDFIMDRfbWFUbXJKV3RRRG5Sd2pqS0w4YXAwS0c3NExCMExyQVZ2USUyMiUyQyUyMmQlMjIlM0ElMjIzMTA1MTI1Ni1iOWJiLTQxMWMtOWY5ZS04ZWU2Yjg2NWE4ZDUyNDU4OWUlMjIlMkMlMjJlJTIyJTNBJTIyYWI0NDNlMDctOWVkNS00MjRjLTk0N2YtN2RjYTQ5YWY3MzM3MzYxN2YwJTIyJTJDJTIyZiUyMiUzQWZhbHNlJTJDJTIyZyUyMiUzQXRydWUlMkMlMjJoJTIyJTNBdHJ1ZSUyQyUyMmklMjIlM0ElNUIlMjJsb2NhdGlvbiUyMiU1RCUyQyUyMmolMjIlM0ElNUIlNUQlMkMlMjJuJTIyJTNBMTQwLjU5OTk5OTk2NDIzNzIlMkMlMjJ1JTIyJTNBJTIyY2hlY2tvdXQuc3RyaXBlLmNvbSUyMiUyQyUyMnYlMjIlM0ElMjJjaGVja291dC5zdHJpcGUuY29tJTIyJTdEJTJDJTIyaCUyMiUzQSUyMjJlMjAxMjllZGE1ZDRhZTk4ZTkwJTIyJTdE
+            mimeType: text/plain;charset=UTF-8
+
+        - description: WS Send smart
+          method: POST
+          url: ${origin_14}/smart
+          postData:
+            text: |-
+              {
+                "channel": "subscribe",
+                "data": {
+                  "channel": "flowTrials/f1d1de0a-f0d8-4920-a776-3ef9e7e60b31"
+                }
+              }
+            mimeType: application/json
+          headers:
+            - Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+            - Sec-WebSocket-Version: "13"
+
+        - description: GET auth/logged-in-user
+          method: GET
+          url: ${origin_2}/auth/logged-in-user
+
+        - description: POST messenger/web/ping
+          method: POST
+          url: ${origin_3}/messenger/web/ping
+          postData:
+            text: app_id=uqy1vrnk&v=3&g=undefined&s=7d280942-57cd-4389-9389-1c259739a5aa&r=&platform=web&Idempotency-Key=be59b3702d40901b&internal=%7B%7D&page_title=Loadmill%20-%20Test%20Suite%20-%20New%20Test%20Suite%20-%20Jan%2017&user_active_company_id=undefined&user_data=%7B%22email%22%3A%22${__encode_url(email_of_1st_collaborator_in_response_body_1)}%22%2C%22user_id%22%3A%22${__encode_url(id_of_1st_collaborator_in_response_body_1)}%22%2C%22anonymous_id%22%3A%22daa1d277-3efd-4c7c-8872-9125fdf2eeef%22%2C%22name%22%3A%22Gilad%22%2C%22Can%20Pay%22%3Afalse%2C%22Team%20Role%22%3A%22admin%22%2C%22Team%20Id%22%3A%222eef51e3-6dd6-4310-a070-589cb945b331%22%2C%22Plan%22%3A%22FREE%22%2C%22Monthly%20Cost%3A%22%3A0%2C%22Identity%20Verified%22%3Atrue%2C%22Max%20Concurrency%22%3A50%2C%22Monthly%20Test%20Minutes%22%3A60%2C%22Remaining%20Test%20Minutes%22%3A60%2C%22API%20Test%20runs%22%3A0%7D&source=apiUpdate&sampling=false&referer=https%3A%2F%2Floadmill-record-ws-duwqnmxg7pv.herokuapp.com%2Fapp%2Fapi-tests%2Ftest-suites%2Fd6d7bee0-bfb6-459c-a779-2d4487dd5da9%2Fflows%2Ff1d1de0a-f0d8-4920-a776-3ef9e7e60b31&anonymous_session=${__encode_url(anonymous_session_in_response_body_8)}
+            mimeType: application/x-www-form-urlencoded
+          extract:
+            - anonymous_session_in_response_body_32:
+                jsonPath: $["anonymous_session"]
+          assert:
+            - check: anonymous_session_in_response_body_32
+
+        - description: POST messenger/web/ping
+          method: POST
+          url: ${origin_3}/messenger/web/ping
+          postData:
+            text: app_id=uqy1vrnk&v=3&g=undefined&s=7d280942-57cd-4389-9389-1c259739a5aa&r=&platform=web&Idempotency-Key=978f6e095140bfd7&internal=%7B%7D&page_title=Loadmill%20-%20Test%20Suite%20-%20New%20Test%20Suite%20-%20Jan%2017&user_active_company_id=-1&user_data=%7B%22email%22%3A%22${__encode_url(email_of_1st_collaborator_in_response_body_1)}%22%2C%22user_id%22%3A%22${__encode_url(id_of_1st_collaborator_in_response_body_1)}%22%2C%22anonymous_id%22%3A%22daa1d277-3efd-4c7c-8872-9125fdf2eeef%22%7D&source=apiUpdate&sampling=false&referer=https%3A%2F%2Floadmill-record-ws-duwqnmxg7pv.herokuapp.com%2Fapp%2Fapi-tests%2Ftest-suites%2Fd6d7bee0-bfb6-459c-a779-2d4487dd5da9%2Fflows%2Ff1d1de0a-f0d8-4920-a776-3ef9e7e60b31&anonymous_session=${__encode_url(anonymous_session_in_response_body_32)}
+            mimeType: application/x-www-form-urlencoded
+          extract:
+            - anonymous_session_in_response_body_33:
+                jsonPath: $["anonymous_session"]
+          assert:
+            - check: anonymous_session_in_response_body_33
+
+        - description: WS Send
+            pubsub/5-dE7U-3Gv9Pt7nJiDGD03KvECfgu4KJtmBtis_KzS743DkZipcnaJV1KiZ8xnRex_J8_mhjOoMQBN_0SFbQuLmpssmBoxyeuux0Ry
+          method: POST
+          url: ${origin_15}/pubsub/5-dE7U-3Gv9Pt7nJiDGD03KvECfgu4KJtmBtis_KzS743DkZipcnaJV1KiZ8xnRex_J8_mhjOoMQBN_0SFbQuLmpssmBoxyeuux0Ry?X-Nexus-New-Client=true&X-Nexus-Version=0.8.5&user_role=undefined
+          postData:
+            text: |-
+              {
+                "eventName": "nx.Subscribe",
+                "nx.Topics": [
+                  "*"
+                ]
+              }
+            mimeType: application/json
+          headers:
+            - Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+            - Sec-WebSocket-Version: "13"
+
+        - description: WS Send
+            pubsub/5-dE7U-3Gv9Pt7nJiDGD03KvECfgu4KJtmBtis_KzS743DkZipcnaJV1KiZ8xnRex_J8_mhjOoMQBN_0SFbQuLmpssmBoxyeuux0Ry
+          method: POST
+          url: ${origin_15}/pubsub/5-dE7U-3Gv9Pt7nJiDGD03KvECfgu4KJtmBtis_KzS743DkZipcnaJV1KiZ8xnRex_J8_mhjOoMQBN_0SFbQuLmpssmBoxyeuux0Ry?X-Nexus-New-Client=true&X-Nexus-Version=0.8.5&user_role=undefined
+          postData:
+            text: >-
+              {
+                "eventName": "nx.UserPresence",
+                "eventData": {
+                  "current_page": "https://loadmill-record-ws-duwqnmxg7pv.herokuapp.com/app/api-tests/test-suites/d6d7bee0-bfb6-459c-a779-2d4487dd5da9/flows/f1d1de0a-f0d8-4920-a776-3ef9e7e60b31"
+                }
+              }
+            mimeType: application/json
+          headers:
+            - Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+            - Sec-WebSocket-Version: "13"
+
+        - description: WS Send
+            pubsub/5-dE7U-3Gv9Pt7nJiDGD03KvECfgu4KJtmBtis_KzS743DkZipcnaJV1KiZ8xnRex_J8_mhjOoMQBN_0SFbQuLmpssmBoxyeuux0Ry
+          method: POST
+          url: ${origin_15}/pubsub/5-dE7U-3Gv9Pt7nJiDGD03KvECfgu4KJtmBtis_KzS743DkZipcnaJV1KiZ8xnRex_J8_mhjOoMQBN_0SFbQuLmpssmBoxyeuux0Ry?X-Nexus-New-Client=true&X-Nexus-Version=0.8.5&user_role=undefined
+          postData:
+            text: >-
+              {
+                "eventName": "nx.Ping",
+                "eventGuid": "1642502294937",
+                "eventData": {
+                  "sendTime": 1642502294937,
+                  "endpoint": "https://nexus-websocket-a.intercom.io/pubsub/5-dE7U-3Gv9Pt7nJiDGD03KvECfgu4KJtmBtis_KzS743DkZipcnaJV1KiZ8xnRex_J8_mhjOoMQBN_0SFbQuLmpssmBoxyeuux0Ry"
+                }
+              }
+            mimeType: application/json
+          headers:
+            - Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+            - Sec-WebSocket-Version: "13"
+
+        - description: POST messenger/web/ping
+          method: POST
+          url: ${origin_3}/messenger/web/ping
+          postData:
+            text: app_id=uqy1vrnk&v=3&g=undefined&s=7d280942-57cd-4389-9389-1c259739a5aa&r=&platform=web&Idempotency-Key=eb06165b0b4b6b62&internal=%7B%7D&page_title=Loadmill%20-%20Test%20Suite%20-%20New%20Test%20Suite%20-%20Jan%2017&user_active_company_id=-1&user_data=%7B%22email%22%3A%22${__encode_url(email_of_1st_collaborator_in_response_body_1)}%22%2C%22user_id%22%3A%22${__encode_url(id_of_1st_collaborator_in_response_body_1)}%22%2C%22anonymous_id%22%3A%22daa1d277-3efd-4c7c-8872-9125fdf2eeef%22%7D&source=apiUpdate&sampling=false&referer=https%3A%2F%2Floadmill-record-ws-duwqnmxg7pv.herokuapp.com%2Fapp%2Fapi-tests%2Ftest-suites%2Fd6d7bee0-bfb6-459c-a779-2d4487dd5da9%2Fflows%2Ff1d1de0a-f0d8-4920-a776-3ef9e7e60b31&anonymous_session=${__encode_url(anonymous_session_in_response_body_33)}
+            mimeType: application/x-www-form-urlencoded
+
+        - description: WS Send
+            pubsub/5-dE7U-3Gv9Pt7nJiDGD03KvECfgu4KJtmBtis_KzS743DkZipcnaJV1KiZ8xnRex_J8_mhjOoMQBN_0SFbQuLmpssmBoxyeuux0Ry
+          method: POST
+          url: ${origin_15}/pubsub/5-dE7U-3Gv9Pt7nJiDGD03KvECfgu4KJtmBtis_KzS743DkZipcnaJV1KiZ8xnRex_J8_mhjOoMQBN_0SFbQuLmpssmBoxyeuux0Ry?X-Nexus-New-Client=true&X-Nexus-Version=0.8.5&user_role=undefined
+          postData:
+            text: >-
+              {
+                "eventName": "nx.Ping",
+                "eventGuid": "1642502340090",
+                "eventData": {
+                  "sendTime": 1642502340090,
+                  "endpoint": "https://nexus-websocket-a.intercom.io/pubsub/5-dE7U-3Gv9Pt7nJiDGD03KvECfgu4KJtmBtis_KzS743DkZipcnaJV1KiZ8xnRex_J8_mhjOoMQBN_0SFbQuLmpssmBoxyeuux0Ry"
+                }
+              }
+            mimeType: application/json
+          headers:
+            - Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+            - Sec-WebSocket-Version: "13"
+
+        - description: WS Send
+            pubsub/5-dE7U-3Gv9Pt7nJiDGD03KvECfgu4KJtmBtis_KzS743DkZipcnaJV1KiZ8xnRex_J8_mhjOoMQBN_0SFbQuLmpssmBoxyeuux0Ry
+          method: POST
+          url: ${origin_15}/pubsub/5-dE7U-3Gv9Pt7nJiDGD03KvECfgu4KJtmBtis_KzS743DkZipcnaJV1KiZ8xnRex_J8_mhjOoMQBN_0SFbQuLmpssmBoxyeuux0Ry?X-Nexus-New-Client=true&X-Nexus-Version=0.8.5&user_role=undefined
+          postData:
+            text: >-
+              {
+                "eventName": "nx.UserPresence",
+                "eventData": {
+                  "current_page": "https://loadmill-record-ws-duwqnmxg7pv.herokuapp.com/app/api-tests/test-suites/d6d7bee0-bfb6-459c-a779-2d4487dd5da9/flows/f1d1de0a-f0d8-4920-a776-3ef9e7e60b31"
+                }
+              }
+            mimeType: application/json
+          headers:
+            - Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+            - Sec-WebSocket-Version: "13"
+
+    runInCi: false
+hooks: {}
+dependencies:
+  login:
+    id: 6a737461-1470-4961-9a5f-8abe6411ba86
