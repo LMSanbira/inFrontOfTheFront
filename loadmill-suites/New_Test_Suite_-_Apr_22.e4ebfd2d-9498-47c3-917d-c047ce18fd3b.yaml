@@ -1,0 +1,25 @@
+conf:
+  meta:
+    description: New Test Suite - Apr 22
+  parameters: []
+  useCookies: true
+  loginFlow: []
+  authenticationHeaders: []
+  parametersScope: SUITE
+flows:
+  - id: 5a04edfa-461d-4b19-9d7e-a4ee58fd6cb1
+    order: 0
+    conf:
+      meta:
+        description: New Flow
+        dependencies: []
+      requests:
+        
+        - method: GET
+          url: walla.com
+
+    runInCi: false
+hooks: {}
+dependencies:
+  login:
+    id: d30a2498-0e60-4266-9691-64f1d4635da4
