@@ -1,0 +1,31 @@
+conf:
+  meta:
+    description: New Test Suite - Apr 25
+  parameters: []
+  useCookies: true
+  loginFlow: []
+  authenticationHeaders: []
+  parametersScope: SUITE
+flows:
+  - id: 7e312ae7-5932-44ee-b687-3c14153e8246
+    order: 0
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - method: GET
+          url: httpbin.org
+          postData:
+            text: wthwth
+            mimeType: text/plain
+          postScript: |-
+            console.log("<<>>", 123);
+            console.log("<<1>>",{abc:123,fff:'oiegoinrtgoi'});
+            console.log([1,2,3,4,5,6,5,6,4,6,3,4,5,6,4,5,4,3,3,234,6,45]);
+
+    runInCi: false
+hooks: {}
+dependencies:
+  login:
+    id: e7c04ed4-4a83-440e-9839-1bda774608ec
