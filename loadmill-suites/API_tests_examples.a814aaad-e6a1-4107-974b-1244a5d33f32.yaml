@@ -1,0 +1,291 @@
+conf:
+  meta:
+    description: API tests examples
+  parameters:
+    - blog_url: https://loadmill-test-blog.herokuapp.com
+    - username: a@b.com
+    - password: Test1234
+    - client_secret: 8c93bf1bb580
+    - p2_request_body_posts_0_title: My test post ${__random_number}
+  useCookies: true
+  loginFlow:
+    
+    - description: "🗝 Global login request - adds Authorization header to all
+        following requests "
+      method: POST
+      url: ${blog_url}/ghost/api/v0.1/authentication/token
+      postData:
+        text: grant_type=password&username=${username}&password=${password}&client_id=ghost-admin&client_secret=${client_secret}
+        mimeType: application/x-www-form-urlencoded
+      headers:
+        - Accept: application/json, text/javascript, */*; q=0.01
+        - X-Requested-With: XMLHttpRequest
+        - Accept-Language: en-US,en;q=0.9,he;q=0.8,pt;q=0.7
+      extract:
+        - access_token:
+            jsonPath: $["access_token"]
+        - token_type:
+            jsonPath: $["token_type"]
+
+  authenticationHeaders:
+    - Authorization: ${token_type} ${access_token}
+flows:
+  - id: 1c2d5751-4203-4543-88eb-c418c3a0b82c
+    order: 0
+    conf:
+      meta:
+        description: 🔑 Login & create a blog post
+      requests:
+        
+        - description: "🚪 Load login page "
+          method: GET
+          url: ${blog_url}/ghost/signin/
+          headers:
+            - Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+            - Accept-Language: en-US,en;q=0.9,he;q=0.8,pt;q=0.7
+
+        - description: "🔑 Authentication request - extract token using JSONPath from the
+            response "
+          method: POST
+          url: ${blog_url}/ghost/api/v0.1/authentication/token
+          postData:
+            text: grant_type=password&username=${username}&password=${password}&client_id=ghost-admin&client_secret=${client_secret}
+            mimeType: application/x-www-form-urlencoded
+          headers:
+            - Accept: application/json, text/javascript, */*; q=0.01
+            - X-Requested-With: XMLHttpRequest
+            - Accept-Language: en-US,en;q=0.9,he;q=0.8,pt;q=0.7
+          extract:
+            - access_token:
+                jsonPath: $["access_token"]
+            - token_type:
+                jsonPath: $["token_type"]
+
+        - description: 📝 Create new blog post - extract its id using JSONPath from the
+            response
+          method: POST
+          url: ${blog_url}/ghost/api/v0.1/posts/?include=tags
+          postData:
+            text: '{"posts":[{"title":"${__escape_quotes(p2_request_body_posts_0_title)}","slug":"my-test-post-123","markdown":"","image":null,"featured":false,"page":false,"status":"draft","language":"en_US","meta_title":null,"meta_description":null,"author":"1","publishedBy":null,"tags":[]}]}'
+            mimeType: application/json; charset=UTF-8
+          headers:
+            - Accept: application/json, text/javascript, */*; q=0.01
+            - X-Requested-With: XMLHttpRequest
+            - X-Ghost-Version: "0.11"
+            - Authorization: ${token_type} ${access_token}
+            - Accept-Language: en-US,en;q=0.9,he;q=0.8,pt;q=0.7
+          extract:
+            - created_post_id:
+                jsonPath: $["posts"][0]["id"]
+
+        - description: 🎉 Publish the created blog post using its extracted id
+          method: PUT
+          url: ${blog_url}/ghost/api/v0.1/posts/${created_post_id}/?include=tags
+          postData:
+            text: '{"posts":[{"id":${created_post_id},"title":"${p2_request_body_posts_0_title}","slug":"my-test-post-123","markdown":"A
+              very interesting blog post
+              content","image":null,"featured":false,"page":false,"status":"published","language":"en_US","meta_title":null,"meta_description":null,"updated_at":"2020-03-01T13:49:41.000Z","updated_by":1,"published_at":null,"created_at":"2020-03-01T13:49:29.000Z","created_by":1,"author":"1","publishedBy":null,"tags":[]}]}'
+            mimeType: application/json; charset=UTF-8
+          headers:
+            - Host: loadmill-test-blog.herokuapp.com
+            - Accept: application/json, text/javascript, */*; q=0.01
+            - X-Requested-With: XMLHttpRequest
+            - X-Ghost-Version: "0.11"
+            - Authorization: ${token_type} ${access_token}
+            - Content-Type: application/json; charset=UTF-8
+            - Accept-Language: en-US,en;q=0.9,he;q=0.8,pt;q=0.7
+
+      skipLoginFlow: true
+    runInCi: false
+  - id: 31e22b7f-b23b-4103-81d9-b5af0c17ceff
+    order: 1
+    conf:
+      meta:
+        description: 🗝 Using global login flow
+      requests:
+        
+        - description: Create a new blog post (authenticated by global login section)
+          method: POST
+          url: ${blog_url}/ghost/api/v0.1/posts/?include=tags
+          postData:
+            text: '{"posts":[{"title":"${__escape_quotes(p2_request_body_posts_0_title)}","slug":"my-test-post-123","markdown":"","image":null,"featured":false,"page":false,"status":"draft","language":"en_US","meta_title":null,"meta_description":null,"author":"1","publishedBy":null,"tags":[]}]}'
+            mimeType: application/json; charset=UTF-8
+          headers:
+            - Accept: application/json, text/javascript, */*; q=0.01
+            - X-Requested-With: XMLHttpRequest
+            - X-Ghost-Version: "0.11"
+            - Accept-Language: en-US,en;q=0.9,he;q=0.8,pt;q=0.7
+          extract:
+            - created_post_id:
+                jsonPath: $["posts"][0]["id"]
+
+        - description: Publish the created blog post (authenticated by global login section)
+          method: PUT
+          url: ${blog_url}/ghost/api/v0.1/posts/${created_post_id}/?include=tags
+          postData:
+            text: '{"posts":[{"id":${created_post_id},"title":"${p2_request_body_posts_0_title}","slug":"my-test-post-123","markdown":"A
+              very interesting blog post
+              content","image":null,"featured":false,"page":false,"status":"published","language":"en_US","meta_title":null,"meta_description":null,"updated_at":"2020-03-01T13:49:41.000Z","updated_by":1,"published_at":null,"created_at":"2020-03-01T13:49:29.000Z","created_by":1,"author":"1","publishedBy":null,"tags":[]}]}'
+            mimeType: application/json; charset=UTF-8
+          headers:
+            - Host: loadmill-test-blog.herokuapp.com
+            - Accept: application/json, text/javascript, */*; q=0.01
+            - X-Requested-With: XMLHttpRequest
+            - X-Ghost-Version: "0.11"
+            - Content-Type: application/json; charset=UTF-8
+            - Accept-Language: en-US,en;q=0.9,he;q=0.8,pt;q=0.7
+
+    runInCi: false
+  - id: d72a6427-12ee-4beb-93bf-7778d132d73f
+    order: 2
+    conf:
+      meta:
+        description: 🔍 Extract using JSONPath
+      requests:
+        
+        - description: Extract user name and verify it is "Jon Skeet"
+          method: GET
+          url: ${blog_url}/ghost/api/v0.1/users/me/?include=roles&status=all
+          headers:
+            - Host: loadmill-test-blog.herokuapp.com
+            - Accept: application/json, text/javascript, */*; q=0.01
+            - X-Requested-With: XMLHttpRequest
+            - X-Ghost-Version: "0.11"
+            - Authorization: Bearer
+                lfx7QirI9dt3UpShLHuqmI9JdaiNos8YfakAkWKLh25eEMSrvrJkyOTgyuW7djfAcSqr2aLYftkoy9bvAMuD1LBYGG53wp2uGUihPy1YIFKXYW5xgND3DBVUoOoxkA0J6DrUOr3E5r8gw3Azx0HLeHPGzqDGR1ppezVAuPKdVz0yGkbKDs7ptbcxuxklLDZ7sTNQQy23zwhsX7mwdZ7SrEFkvzJrAYBatzgBkZnEaxWpxIVSF8fhnoFGxz9TPC4
+            - Accept-Language: en-US,en;q=0.9,he;q=0.8,pt;q=0.7
+          extract:
+            - user_name:
+                jsonPath: $.users[0].name
+          assert:
+            - check: user_name
+              equals: Jon Skeet
+
+    runInCi: false
+  - id: e2d83b71-a7b9-42dd-8c8e-990b89b6e264
+    order: 3
+    conf:
+      meta:
+        description: 🔎 Extract using jQuery (XPath)
+      requests:
+        
+        - description: Extract user blog title and description from HTML
+          method: GET
+          url: ${blog_url}
+          extract:
+            - blog_title:
+                jQuery:
+                  query: title
+                  attr: ""
+            - blog_description:
+                jQuery:
+                  query: meta[name="description"]
+                  attr: content
+          assert:
+            - check: blog_title
+            - check: blog_description
+              contains: stories and ideas
+
+      skipLoginFlow: true
+    runInCi: false
+  - id: de44303a-1378-49ce-83cb-ed7929acde6c
+    order: 4
+    conf:
+      meta:
+        description: 🔍 Extract using RegExp
+      requests:
+        
+        - description: Verify login page has title and that the word "error" does not appear
+          method: GET
+          url: ${blog_url}/ghost/signin/
+          extract:
+            - page_title:
+                regex: <title>(.*?)<\/title>
+            - error_in_page:
+                regex: error
+          assert:
+            - check: page_title
+            - check: error_in_page
+              falsy: true
+
+      skipLoginFlow: true
+    runInCi: false
+  - id: 9255858f-4fe5-4641-af49-30026ea56ba8
+    order: 5
+    conf:
+      meta:
+        description: 🤖 Continuous integration test (CI)
+      requests:
+        
+        - description: This test is toggled to run from external integrations ⬆ run it
+            from the CI tab on the left
+          method: GET
+          url: ${blog_url}
+          assert:
+            - check: __responseTime
+              lesser: "100"
+
+      skipLoginFlow: true
+    runInCi: true
+  - id: c0321349-becc-4a14-bf10-62588fece467
+    order: 6
+    conf:
+      meta:
+        description: 🚫 Negative test case (failed request)
+      requests:
+        
+        - description: Request a non-existing page and expect an error response with 404
+            status
+          method: GET
+          url: ${blog_url}/a-non-existing-blog-post/
+          expectedStatus: ERROR
+          assert:
+            - check: __status
+              equals: "404"
+
+      skipLoginFlow: true
+    runInCi: false
+  - id: 0008b3bb-29e9-4dd0-9dca-ee1ded893b15
+    order: 7
+    conf:
+      meta:
+        description: 💲 Using built-in parameters
+      requests:
+        
+        - description: "Search google for a random 4-letter word "
+          method: GET
+          url: google.com?${__random_letters('4')}
+          extract:
+            - the_time: ${__now_iso()}
+
+      skipLoginFlow: true
+    runInCi: false
+  - id: a962a653-3d17-4a5c-9857-93973ccb7aa4
+    order: 8
+    conf:
+      meta:
+        description: 💔 Broken test flow - Fix me!
+      requests:
+        
+        - description: Extract Hawaii timezone by label and verify that it is GMT -10:00
+          method: GET
+          url: ${blog_url}/ghost/api/v0.1/configuration/timezones/
+          headers:
+            - Host: loadmill-test-blog.herokuapp.com
+            - Accept: application/json, text/javascript, */*; q=0.01
+            - X-Requested-With: XMLHttpRequest
+            - X-Ghost-Version: "0.11"
+            - Accept-Language: en-US,en;q=0.9,he;q=0.8,pt;q=0.7
+          extract:
+            - hawaii_in_GMT:
+                jsonPath: $..[?(@.name == 'Pacific/Honolulu')].label
+          assert:
+            - check: hawaii_in_GMT
+              contains: (GMT -9:00)
+
+      skipLoginFlow: true
+    runInCi: false
+hooks: {}
+dependencies:
+  login:
+    id: e4d0d362-7a06-45a5-89ef-d986a6816070
