@@ -1,6 +1,6 @@
 conf:
   meta:
-    description: API tests examples
+    description: API tests examplesryryuryu
   parameters:
     - blog_url: https://loadmill-test-blog.herokuapp.com
     - username: a@b.com
@@ -29,6 +29,7 @@ conf:
 
   authenticationHeaders:
     - Authorization: ${token_type} ${access_token}
+  parametersScope: FLOW
 flows:
   - id: 1c2d5751-4203-4543-88eb-c418c3a0b82c
     order: 0
