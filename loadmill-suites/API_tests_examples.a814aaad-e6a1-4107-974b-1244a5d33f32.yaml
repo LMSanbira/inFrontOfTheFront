@@ -1,6 +1,6 @@
 conf:
   meta:
-    description: API tests examplesryryuryu
+    description: API tests examplesryryuryuffhghngfdh
   parameters:
     - blog_url: https://loadmill-test-blog.herokuapp.com
     - username: a@b.com
