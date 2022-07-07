@@ -1,0 +1,99 @@
+conf:
+  meta:
+    description: New Test Suite - Jul 06
+  parameters:
+    - origin_1: wss://loadmill-record-ws-duwqnmxg7pv.herokuapp.com
+  useCookies: true
+  loginFlow: []
+  authenticationHeaders: []
+  parametersScope: SUITE
+flows:
+  - id: 3f173878-f971-4d65-bf74-15eaa63e0520
+    order: 0
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - method: GET
+          url: httpbin.org/anything/json
+          postData:
+            text: '{"a":123}'
+            mimeType: application/json
+          extract:
+            - json:
+                jsonPath: $.json
+          assert:
+            - check: json
+
+    runInCi: false
+  - id: a7e36690-4c6a-4662-b0be-9bc6eec61d38
+    order: 1
+    conf:
+      meta:
+        description: Recorded Flow - Jul 06 12:18
+      requests:
+        
+        - description: WS Receive smart
+          method: POST
+          url: httpbin.org/anything/json
+          postData:
+            text: |-
+              {
+                "data": {
+                  "teamLabels": [
+                    {
+                      "description": "asd",
+                      "color": "#61bd4f"
+                    }
+
+                  ]
+                }
+              }
+            mimeType: application/json
+          headers:
+            - Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+            - Sec-WebSocket-Version: "13"
+          extract:
+            - ws_received_data:
+                jsonPath: $.json
+          assert:
+            - check: ws_received_data
+              JSONSchema: |-
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "teamLabels": {
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "description": {
+                                    "type": "string"
+                                  },
+                                  "color": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+            - check: ws_received_data
+
+    runInCi: false
+dependencies:
+  login:
+    id: 92d5a77a-72ff-4931-bb07-a30ac284ba1b
