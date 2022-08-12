@@ -1,0 +1,48 @@
+conf:
+  meta:
+    description: passing
+  parameters: []
+  useCookies: true
+  loginFlow: []
+  authenticationHeaders: []
+  parametersScope: SUITE
+flows:
+  - id: ba64d90a-a41b-4d63-975e-f6ba72bf911b
+    order: 0
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - method: GET
+          url: httpbin.org
+
+        - method: GET
+          url: httpbin.org
+          delay: ""
+
+        - method: GET
+          url: httpbin.org
+
+        - method: GET
+          url: httpbin.org
+          delay: ""
+
+        - method: GET
+          url: httpbin.org
+
+        - method: GET
+          url: httpbin.org
+          delay: ""
+
+        - method: GET
+          url: httpbin.org
+
+        - method: GET
+          url: httpbin.org
+          delay: ""
+
+    runInCi: true
+dependencies:
+  login:
+    id: 64cc4207-bb62-4392-87fb-4785f8e3adc3
