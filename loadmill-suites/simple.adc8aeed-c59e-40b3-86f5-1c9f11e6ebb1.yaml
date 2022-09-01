@@ -1,0 +1,106 @@
+conf:
+  meta:
+    description: simple
+  useCookies: true
+  cookiesScope: Suite
+  parameters: []
+  loginFlow: []
+  authenticationHeaders: []
+  parametersScope: SUITE
+flows:
+  - id: d93a836a-d271-4546-b612-6c50a7c28220
+    order: 0
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - flowId: 5cb80716-b5f8-4b0b-ab19-9f3696eb5325
+          description: bla bli blu
+
+        - method: GET
+          url: httpbin.com
+
+        - method: GET
+          url: httpbin.com
+
+        - method: GET
+          url: httpbin.com
+
+        - method: GET
+          url: httpbin.com
+
+        - method: GET
+          url: httpbin.com
+
+        - method: GET
+          url: httpbin.com
+
+        - method: GET
+          url: httpbin.com
+
+        - method: GET
+          url: httpbin.com
+
+        - method: GET
+          url: httpbin.com
+
+        - method: GET
+          url: httpbin.com
+
+        - method: GET
+          url: httpbin.com
+
+        - method: GET
+          url: httpbin.com
+
+      parameterPools: []
+    runInCi: false
+dependencies:
+  hooks:
+    beforeAll:
+      id: ebd5f0c2-5ba3-4621-9547-c593cbefe202
+      conf:
+        meta: {}
+        requests:
+          
+          - method: GET
+            url: blblblblblbllb
+
+          - method: GET
+            url: ""
+
+          - method: GET
+            url: blblblblblbllb
+
+          - method: GET
+            url: blblblblblbllb
+
+    beforeEach:
+      id: 74da8268-f634-4449-8c8c-29e49e447fb2
+      conf:
+        meta: {}
+        requests:
+          
+          - method: GET
+            url: blblblblblbllb
+
+  login:
+    id: 76236fcd-431d-430a-9db0-4ebf70987508
+  flowsData:
+    - id: 5cb80716-b5f8-4b0b-ab19-9f3696eb5325
+      conf:
+        meta:
+          description: bla bli blu
+        requests:
+          
+          - method: GET
+            url: google.com
+
+          - method: GET
+            url: walla.com
+
+        parameters: []
+        useCookies: true
+        authenticationHeaders: []
+      description: bla bli blu
