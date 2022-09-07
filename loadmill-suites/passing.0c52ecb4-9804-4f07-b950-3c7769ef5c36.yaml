@@ -3,7 +3,18 @@ conf:
     description: passing
   parameters: []
   useCookies: true
-  loginFlow: []
+  loginFlow:
+    
+    - description: bla blu
+      method: GET
+      url: httpbin.org/42
+
+    - method: GET
+      url: ""
+
+    - method: GET
+      url: ""
+
   authenticationHeaders: []
   parametersScope: SUITE
 flows:
@@ -43,6 +54,32 @@ flows:
           delay: ""
 
     runInCi: true
+  - id: 98bf1745-9802-48da-802e-3101f2fa0e24
+    order: 1
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - description: bla blu
+          method: GET
+          url: httpbin.org/42
+
+        - method: GET
+          url: httpbin.org
+
+        - description: bla blu
+          method: GET
+          url: httpbin.org/42
+
+        - method: GET
+          url: httpbin.org
+
+        - description: bla blu
+          method: GET
+          url: httpbin.org/42
+
+    runInCi: false
 dependencies:
   login:
     id: 64cc4207-bb62-4392-87fb-4785f8e3adc3
