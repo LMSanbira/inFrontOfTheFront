@@ -1,0 +1,29 @@
+conf:
+  meta:
+    description: autocomplate fix
+  useCookies: true
+  cookiesScope: Suite
+  parameters: []
+  loginFlow: []
+  authenticationHeaders: []
+  parametersScope: SUITE
+flows:
+  - id: 8295f832-374a-43f8-9e04-9b47f3a248bb
+    order: 0
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - method: GET
+          url: walla.com
+          extract:
+            - param: "1"
+            - paramram: "2"
+            - parparmmmm: "3"
+          assert: []
+
+    runInCi: false
+dependencies:
+  login:
+    id: 5d7d0bb4-71a0-4114-b6e5-0904a1955608
