@@ -1,0 +1,24 @@
+conf:
+  meta:
+    description: New Test Suite - Sep 13
+  parameters: []
+  useCookies: true
+  cookiesScope: Suite
+  loginFlow: []
+  authenticationHeaders: []
+  parametersScope: SUITE
+flows:
+  - id: 7e576229-6984-4822-ae82-2b5766249f88
+    order: 0
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - method: GET
+          url: walla.com
+
+    runInCi: false
+dependencies:
+  login:
+    id: c859b57e-2bbe-41fb-8cc6-42bd4e9fe583
