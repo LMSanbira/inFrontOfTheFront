@@ -1,0 +1,100 @@
+conf:
+  meta:
+    description: suite demo
+  useCookies: true
+  cookiesScope: Suite
+  parameters:
+    - host: riviel.com
+    - param: ppp
+    - par2: "123"
+  loginFlow: []
+  authenticationHeaders: []
+  parametersScope: SUITE
+flows:
+  - id: 2666344e-a14d-40b9-8d5b-063612f27621
+    order: 0
+    conf:
+      meta:
+        description: flow demo
+      requests:
+        
+        - description: "11111"
+          method: GET
+          url: google.com1
+
+        - method: GET
+          url: google.com
+
+        - method: GET
+          url: ${host}
+
+        - method: GET
+          url: ${param}
+
+        - method: GET
+          url: google.com
+
+        - description: to here
+          method: GET
+          url: google.com
+
+        - method: GET
+          url: ${host}
+
+        - method: GET
+          url: ${param}
+
+        - method: GET
+          url: google.com
+
+        - flowId: 499eb631-1591-47cd-8aed-8ddf7a43ff5f
+          description: text extracted
+
+        - description: "22222"
+          method: GET
+          url: walla.com1
+
+    runInCi: false
+  - id: 7ac6076f-5506-4fab-a044-7cdba56bb1a5
+    order: 1
+    conf:
+      meta:
+        description: flow demo 2
+      requests:
+        
+        - description: GET json
+          method: GET
+          url: httpbin.org/json
+
+        - method: GET
+          url: google.con
+
+    runInCi: false
+    assignedLabelsIds:
+      - id: 2b010027-cab9-4f73-8507-101fc045c297
+      - id: 56f6b1d3-a1ac-4fe0-9d64-ac81ab861278
+dependencies:
+  labels:
+    - id: 2b010027-cab9-4f73-8507-101fc045c297
+      description: darkblue
+      color: "#344566"
+    - id: 56f6b1d3-a1ac-4fe0-9d64-ac81ab861278
+      description: lightblue
+      color: "#00c2e0"
+  login:
+    id: bb342bee-013e-4036-b112-76483022f210
+  flowsData:
+    - id: 499eb631-1591-47cd-8aed-8ddf7a43ff5f
+      conf:
+        meta:
+          description: text extracted
+        requests:
+          
+          - method: GET
+            url: ${host}
+
+        parameters:
+          - host: rivi.com
+        useCookies: true
+        authenticationHeaders: []
+      description: text extracted
