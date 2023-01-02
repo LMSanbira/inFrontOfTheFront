@@ -1,0 +1,51 @@
+conf:
+  meta:
+    description: New Test Suite - Dec 23
+  parameters: []
+  useCookies: true
+  cookiesScope: Suite
+  loginFlow: []
+  authenticationHeaders: []
+  parametersScope: SUITE
+flows:
+  - id: 73e0ae61-10d1-493d-bfb7-127f44da802a
+    order: 0
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - method: GET
+          url: httpbin.or
+          extract: []
+          postScript: ""
+
+        - method: GET
+          url: google.com
+          assert: []
+
+        - method: GET
+          url: www.sanbira.band
+
+    runInCi: false
+    assignedLabelsIds:
+      - id: 0b72062d-6c79-4c5e-9f65-4f4fe0f4ad58
+      - id: 3955bf7a-bb3a-4ba6-a1ac-b4046f60953a
+      - id: 3f5f3bf1-d1f6-4cae-8d56-7404ec1bdc3b
+      - id: 4d797ea3-42b5-402d-8e43-63e46c63f076
+dependencies:
+  labels:
+    - id: 0b72062d-6c79-4c5e-9f65-4f4fe0f4ad58
+      description: o3
+      color: hsl(35, 100%, 40%)
+    - id: 3955bf7a-bb3a-4ba6-a1ac-b4046f60953a
+      description: boieroinqoeirbnonqeirtb
+      color: "#ff9f1a"
+    - id: 3f5f3bf1-d1f6-4cae-8d56-7404ec1bdc3b
+      description: rweg23tgtg42g
+      color: "#ff9f1a"
+    - id: 4d797ea3-42b5-402d-8e43-63e46c63f076
+      description: g2
+      color: hsl(110, 45%, 53%)
+  login:
+    id: 9c933c47-e865-4051-a143-318b3d6a22de
