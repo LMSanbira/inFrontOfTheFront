@@ -38,7 +38,7 @@ flows:
         description: 🔑 Login & create a blog post
       requests:
         
-        - description: "🚪 Load login page "
+        - description: 🚪 Load login page ffff
           method: GET
           url: ${blog_url}/ghost/signin/
           headers:
@@ -214,7 +214,8 @@ flows:
         description: 🔍 Extract using RegExp
       requests:
         
-        - description: Verify login page has title and that the word "error" does not appear
+        - description: Verify login page has title and that the word "error" does not
+            appearfffff
           method: GET
           url: ${blog_url}/ghost/signin/
           extract:
@@ -316,6 +317,17 @@ flows:
     assignedLabelsIds:
       - id: 3d0a5575-246b-4ce6-aa87-adf57d30c87e
       - id: 436f3112-e7ec-4b84-9b02-db1513203bdb
+  - id: 0f856566-0376-4f71-a04c-ccfec97b9f95
+    order: 9
+    conf:
+      meta:
+        description: fffff
+      requests:
+        
+        - method: GET
+          url: ""
+
+    runInCi: false
 dependencies:
   labels:
     - id: 3d0a5575-246b-4ce6-aa87-adf57d30c87e
