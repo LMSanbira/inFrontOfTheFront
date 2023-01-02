@@ -1,0 +1,64 @@
+conf:
+  meta:
+    description: assss
+  useCookies: true
+  cookiesScope: Suite
+  parameters:
+    - url: google.com
+    - ppppp: "1234"
+  loginFlow: []
+  authenticationHeaders: []
+  parametersScope: SUITE
+flows:
+  - id: 74d1e796-57b6-4998-a5d5-fc22e1b0b3f9
+    order: 0
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - method: GET
+          url: ghjkjj${__random(50)}
+          postData:
+            text: |-
+              {
+                "json": 123,
+                "ttt": "tttt"
+              }
+            mimeType: text/plain
+          postScript: |-
+            let i = 50;
+
+            if (i) {
+              return 'abcd';
+            }
+
+        - method: GET
+          url: ppppp${url}${__testStartTime}
+          postData:
+            text: |-
+              [{:Model "818ce"
+
+                   :Frets 20
+
+                   :Strings {:Model "Elixir Phosphor Bronze Light"
+
+                             :Gauges (.012 .016 .024	.032 .042 .053)}
+
+                   :Pickguard true
+
+                   :Builders #{"Jean Paul" "Marc" "Richard"}}
+
+                   #inst "2011-09-08T22:47:31-07:00"]
+            mimeType: application/edn
+
+        - method: GET
+          url: hello${ppppp}${url}
+          postData:
+            text: url
+            mimeType: ""
+
+    runInCi: false
+dependencies:
+  login:
+    id: 7f55a343-5fdb-4629-98ee-23343b5f0275
