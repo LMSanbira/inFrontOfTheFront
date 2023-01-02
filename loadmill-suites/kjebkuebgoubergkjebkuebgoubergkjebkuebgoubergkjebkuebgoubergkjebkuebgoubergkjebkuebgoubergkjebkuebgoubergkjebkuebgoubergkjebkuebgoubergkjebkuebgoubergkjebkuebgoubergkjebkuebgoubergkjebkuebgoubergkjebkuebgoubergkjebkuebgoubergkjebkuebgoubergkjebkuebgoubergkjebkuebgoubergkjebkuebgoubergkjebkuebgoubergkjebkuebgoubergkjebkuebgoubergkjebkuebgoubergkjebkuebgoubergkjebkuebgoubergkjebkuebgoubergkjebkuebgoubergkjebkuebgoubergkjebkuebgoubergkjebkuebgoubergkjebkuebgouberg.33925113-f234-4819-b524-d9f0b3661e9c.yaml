@@ -1,9 +1,16 @@
 conf:
   meta:
     description: fv
-  parameters: []
   useCookies: true
-  loginFlow: []
+  cookiesScope: Flow
+  parameters:
+    - paramram: "1223"
+    - b: b
+  loginFlow:
+    
+    - method: GET
+      url: walla.com
+
   authenticationHeaders: []
   parametersScope: SUITE
 flows:
@@ -15,13 +22,22 @@ flows:
       requests:
         
         - method: GET
-          url: google.com
+          url: ws://google.com
+          postScript: .
           assert:
             - check: __requestStartTime
           loop:
             assert:
               check: __responseEndTime
             iterations: 1
+
+        - method: GET
+          url: example.com?${paramram}${b}${b}
+          headers: []
+          expectedStatus: SUCCESS
+          timeout: 60000
+          extract: []
+          assert: []
 
         - method: GET
           url: google.com
@@ -43,7 +59,66 @@ flows:
             iterations: 1
 
     runInCi: false
-hooks: {}
+    assignedLabelsIds:
+      - id: eb19003d-8c79-4ecd-8837-5326d1c670e0
+      - id: 8352354d-ab89-411d-b261-7dfec33421f3
+      - id: 570bb3d8-92e4-40d7-a92a-4f3e5e3c38ac
+  - id: c94a6710-0396-4913-8462-48cf215d2505
+    order: 1
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - method: GET
+          url: httpbin.org
+          postData:
+            text: wthwth
+            mimeType: text/plain
+          postScript: |-
+            console.log("<<>>", 123);
+            console.log("<<1>>",{abc:123,fff:'oiegoinrtgoi'});
+            console.log([1,2,3,4,5,6,5,6,4,6,3,4,5,6,4,5,4,3,3,234,6,45]);
+
+    runInCi: false
+    assignedLabelsIds:
+      - id: 570bb3d8-92e4-40d7-a92a-4f3e5e3c38ac
+  - id: 2adf7b29-e0fa-4045-a156-dd39a882dad8
+    order: 2
+    conf:
+      meta:
+        description: New Flow
+      requests:
+        
+        - method: GET
+          url: google.com
+          extract:
+            - par: ${__hex_to_base64('ffffffffg')}
+          assert:
+            - check: par
+
+      skipLoginFlow: false
+    runInCi: true
 dependencies:
+  hooks:
+    afterEach:
+      id: bf0f2baf-dce6-4079-9918-bfbd55ab07f1
+      conf:
+        meta: {}
+        requests:
+          
+          - method: GET
+            url: httpbin.org
+
+  labels:
+    - id: 570bb3d8-92e4-40d7-a92a-4f3e5e3c38ac
+      description: l
+      color: "#f2d600"
+    - id: 8352354d-ab89-411d-b261-7dfec33421f3
+      description: label2
+      color: "#f2d600"
+    - id: eb19003d-8c79-4ecd-8837-5326d1c670e0
+      description: bbbbbbbb
+      color: hsl(7, 80%, 40%)
   login:
     id: 0b4d1762-d27c-4d9d-9350-6cace00c8593
